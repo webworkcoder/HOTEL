@@ -6,6 +6,7 @@
 
 @theme inline {
   --spacing-content-area: var(--content-area);
+
   --font-sans: var(--font-inter);
   --font-heading: var(--font-playfair);
   --font-mono: var(--font-geist-mono);
@@ -28,58 +29,65 @@
 
 :root {
   --content-area: 1440px;
-  --background: oklch(0.99 0.01 240);
-  --foreground: oklch(0.15 0.02 240);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.02 240);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.02 240);
-  --primary: oklch(0.55 0.18 255);
-  --primary-foreground: oklch(1 0 0);
 
-  --secondary: oklch(0.97 0.01 240);
-  --secondary-foreground: oklch(0.25 0.02 240);
+  /* Luxury Hotel Theme */
+  --background: #f8f5f0;
+  --foreground: #2d2a28;
 
-  --muted: oklch(0.96 0.01 240);
-  --muted-foreground: oklch(0.5 0.02 240);
+  --card: #ffffff;
+  --card-foreground: #2d2a28;
 
-  --accent: oklch(0.94 0.02 240);
-  --accent-foreground: oklch(0.25 0.02 240);
+  --popover: #ffffff;
+  --popover-foreground: #2d2a28;
 
-  --destructive: oklch(0.65 0.25 25);
+  --primary: #c5a27a;
+  --primary-foreground: #ffffff;
 
-  --border: oklch(0.92 0.01 240);
-  --input: oklch(0.92 0.01 240);
-  --ring: oklch(0.55 0.18 255);
+  --secondary: #ede7de;
+  --secondary-foreground: #2d2a28;
+
+  --muted: #f3f0eb;
+  --muted-foreground: #7a746d;
+
+  --accent: #d8c1a6;
+  --accent-foreground: #2d2a28;
+
+  --destructive: #dc2626;
+
+  --border: #e4ddd4;
+  --input: #e4ddd4;
+
+  --ring: #c5a27a;
 
   --radius: 0.75rem;
 }
 
 .dark {
-  --background: oklch(0.15 0.02 240);
-  --foreground: oklch(0.98 0.01 240);
+  --background: #1f1c1a;
+  --foreground: #f8f5f0;
 
-  --card: oklch(0.2 0.02 240);
-  --card-foreground: oklch(0.98 0.01 240);
+  --card: #2a2725;
+  --card-foreground: #f8f5f0;
 
-  --popover: oklch(0.2 0.02 240);
-  --popover-foreground: oklch(0.98 0.01 240);
+  --popover: #2a2725;
+  --popover-foreground: #f8f5f0;
 
-  --primary: oklch(0.65 0.18 255);
-  --primary-foreground: oklch(0.1 0 0);
+  --primary: #d6b189;
+  --primary-foreground: #1f1c1a;
 
-  --secondary: oklch(0.22 0.02 240);
-  --secondary-foreground: oklch(0.98 0.01 240);
+  --secondary: #35302c;
+  --secondary-foreground: #f8f5f0;
 
-  --muted: oklch(0.22 0.02 240);
-  --muted-foreground: oklch(0.7 0.02 240);
+  --muted: #35302c;
+  --muted-foreground: #b8b1aa;
 
-  --accent: oklch(0.25 0.02 240);
-  --accent-foreground: oklch(0.98 0.01 240);
+  --accent: #4a4037;
+  --accent-foreground: #f8f5f0;
 
-  --border: oklch(0.3 0.02 240);
-  --input: oklch(0.3 0.02 240);
-  --ring: oklch(0.65 0.18 255);
+  --border: #4a4037;
+  --input: #4a4037;
+
+  --ring: #d6b189;
 }
 
 @layer base {
@@ -87,39 +95,51 @@
     @apply border-border outline-ring/50;
   }
 
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
   }
 
-  html {
-    @apply scroll-smooth;
-  }
-
   h1,
   h2,
   h3,
-  h4 {
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-heading);
     letter-spacing: -0.02em;
+    color: var(--foreground);
+  }
+
+  p {
+    line-height: 1.8;
   }
 
   ::selection {
-    background: oklch(0.55 0.18 255);
+    background: var(--primary);
     color: white;
   }
 }
 
+/* Luxury Scrollbar */
 
 ::-webkit-scrollbar {
   width: 8px;
 }
 
-::-webkit-scrollbar-thumb {
-  background: oklch(0.8 0.02 240);
-  border-radius: 10px;
+::-webkit-scrollbar-track {
+  background: #f3f0eb;
 }
 
-::-webkit-scrollbar-track {
-  background: oklch(0.97 0.01 240);
+::-webkit-scrollbar-thumb {
+  background: #c5a27a;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b38d64;
 }

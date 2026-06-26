@@ -1,9 +1,16 @@
+import { AboutHotel } from "@/components/pages/home/about-hotel";
+import { Facilities } from "@/components/pages/home/facilities";
+import { HeroSection } from "@/components/pages/home/hero-section";
+import { RoomCollection } from "@/components/pages/home/room-collection";
+
 const HomePage = () => {
   return (
-    <div className="max-w-content-area w-[90%] mx-auto">
-      <h1 className="text-4xl font-bold">Luxury Rooms</h1>
-      <p className="text-gray-600">Find your perfect stay</p>
-    </div>
+    <>
+      <HeroSection />
+      <Facilities />
+      <AboutHotel />
+      <RoomCollection />
+    </>
   );
 };
 

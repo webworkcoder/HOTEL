@@ -3,6 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/query-provider";
+import { Navbar } from "./layout/navbar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,7 +36,10 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <Navbar />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );
