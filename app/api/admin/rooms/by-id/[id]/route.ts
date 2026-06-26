@@ -1,15 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextRequest } from "next/server";
 import { connectDB } from "@/lib/db";
 import { updateRoomService, deleteRoomService } from "@/services/room.service";
 
 export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } },
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     await connectDB();
+
+    const { id } = await params;
     const body = await req.json();
-    const room = await updateRoomService(params.id, body);
+
+    const room = await updateRoomService(id, body);
 
     return Response.json({
       success: true,
@@ -28,12 +32,15 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } },
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     await connectDB();
-    await deleteRoomService(params.id);
+
+    const { id } = await params;
+
+    await deleteRoomService(id);
 
     return Response.json({
       success: true,

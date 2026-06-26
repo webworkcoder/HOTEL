@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextRequest } from "next/server";
 import { connectDB } from "@/lib/db";
 import { BookingModel } from "@/models";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } },
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     await connectDB();
-    const booking = await BookingModel.findById(params.id).populate("roomId");
+    const { id } = await params;
+    const booking = await BookingModel.findById(id).populate("roomId");
 
     if (!booking) {
       return Response.json(

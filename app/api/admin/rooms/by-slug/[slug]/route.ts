@@ -1,18 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextRequest } from "next/server";
 import { connectDB } from "@/lib/db";
 import { getRoomBySlugService } from "@/services/room.service";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { slug: string } },
+  req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   try {
     await connectDB();
-    const room = await getRoomBySlugService(params.slug);
+    const { slug } = await params;
+    const room = await getRoomBySlugService(slug);
 
     if (!room) {
       return Response.json(
-        { success: false, message: "Room not found" },
+        {
+          success: false,
+          message: "Room not found",
+        },
         { status: 404 },
       );
     }
