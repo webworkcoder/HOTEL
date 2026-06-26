@@ -4,6 +4,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/query-provider";
 import { Navbar } from "./layout/navbar";
+import { Footer } from "./layout/footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
         <QueryProvider>
           <Navbar />
           {children}
+          <Footer />
         </QueryProvider>
       </body>
     </html>
