@@ -164,3 +164,12 @@ html.lenis body {
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
