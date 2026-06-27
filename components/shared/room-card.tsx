@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Users } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 export interface IRoomCardProps {
   id: string;
@@ -14,13 +15,13 @@ export interface IRoomCardProps {
 
 export const RoomCard = ({
   id,
-  title,
-  image,
+  name,
+  images,
   location = "Hotel Blu Plaza",
-  price,
+  pricePerNight,
   guests = 2,
   href,
-}: IRoomCardProps) => {
+}: any) => {
   return (
     <Link
       href={href || `/rooms/${id}`}
@@ -30,8 +31,8 @@ export const RoomCard = ({
         {/* Image */}
         <div className="relative h-105 overflow-hidden">
           <Image
-            src={image}
-            alt={title}
+            src={images?.[0] || "/images/placeholder.jpg"}
+            alt={name}
             fill
             className="
               object-cover
@@ -57,7 +58,7 @@ export const RoomCard = ({
             shadow-xl
           "
         >
-          <h3 className="font-heading text-xl mb-2">{title}</h3>
+          <h3 className="font-heading text-xl mb-2">{name}</h3>
 
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
@@ -66,7 +67,7 @@ export const RoomCard = ({
             </div>
 
             <div className="font-semibold text-primary">
-              ₹{price.toLocaleString()}
+              ₹{pricePerNight?.toLocaleString()}
             </div>
           </div>
         </div>

@@ -4,44 +4,45 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { RoomCard } from "@/components/shared/room-card";
+import { rooms } from "@/data/rooms";
 
-const rooms = [
-  {
-    id: "1",
-    title: "Comfort Room",
-    image: "/images/room5.png",
-    location: "Hotel Blu Plaza",
-    price: 12000,
-  },
-  {
-    id: "2",
-    title: "Luxury Room",
-    image: "/images/room6.png",
-    location: "Hotel Blu Plaza",
-    price: 15000,
-  },
-  {
-    id: "3",
-    title: "Standard Room",
-    image: "/images/room.webp",
-    location: "Hotel Blu Plaza",
-    price: 10000,
-  },
-  {
-    id: "4",
-    title: "Normal Room",
-    image: "/images/room3.webp",
-    location: "Hotel Blu Plaza",
-    price: 8000,
-  },
-  {
-    id: "5",
-    title: "Presidential Suite",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 25000,
-  },
-];
+// const rooms = [
+//   {
+//     id: "1",
+//     title: "Comfort Room",
+//     image: "/images/room5.png",
+//     location: "Hotel Blu Plaza",
+//     price: 12000,
+//   },
+//   {
+//     id: "2",
+//     title: "Luxury Room",
+//     image: "/images/room6.png",
+//     location: "Hotel Blu Plaza",
+//     price: 15000,
+//   },
+//   {
+//     id: "3",
+//     title: "Standard Room",
+//     image: "/images/room.webp",
+//     location: "Hotel Blu Plaza",
+//     price: 10000,
+//   },
+//   {
+//     id: "4",
+//     title: "Normal Room",
+//     image: "/images/room3.webp",
+//     location: "Hotel Blu Plaza",
+//     price: 8000,
+//   },
+//   {
+//     id: "5",
+//     title: "Presidential Suite",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 25000,
+//   },
+// ];
 
 export const SuggestedRoom = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
