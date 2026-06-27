@@ -45,7 +45,7 @@ export const AboutHotel = () => {
             <div className="relative w-full max-w-137.5 h-112.5">
               {/* Left Image */}
               <div
-                className="absolute left-0 bottom-0 w-[46%] h-[75%] overflow-hidden shadow-2xl z-10"
+                className="absolute left-0 bottom-0 w-[46%] h-[50%] md:h-[75%] overflow-hidden shadow-2xl z-10"
                 ref={leftImageRef}
               >
                 <Image
@@ -58,7 +58,7 @@ export const AboutHotel = () => {
 
               {/* Right Image */}
               <div
-                className="absolute right-0 top-0 w-[50%] h-[85%] overflow-hidden shadow-2xl"
+                className="absolute right-0 top-0 w-[50%] h-[55%] md:h-[85%] overflow-hidden shadow-2xl"
                 ref={rightImageRef}
               >
                 <Image

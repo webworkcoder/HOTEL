@@ -4,6 +4,13 @@ import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaLinkedin,
+  FaTwitter,
+  FaYoutube,
+} from "react-icons/fa";
 
 export const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -58,6 +65,50 @@ export const HeroSection = () => {
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/55 z-1" />
+
+      {/* Social Media */}
+      <div className="absolute left-6 xl:left-10 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col items-center">
+        <div className="h-20 w-px bg-white/30 mb-6" />
+
+        <div className="flex flex-col gap-4">
+          {[
+            {
+              icon: FaInstagram,
+              href: "https://instagram.com",
+            },
+            {
+              icon: FaFacebook,
+              href: "https://facebook.com",
+            },
+            {
+              icon: FaYoutube,
+              href: "https://twitter.com",
+            },
+            {
+              icon: FaLinkedin,
+              href: "https://linkedin.com",
+            },
+          ].map(({ icon: Icon, href }, index) => (
+            <Link key={index} href={href} target="_blank" className="group">
+              <div className="w-11 h-11 rounded-full border border-white/20 bg-white/5 backdrop-blur-lg flex items-center justify-center text-white/80 hover:text-white hover:bg-primary hover:border-primary transition-all duration-300 hover:scale-110">
+                <Icon size={18} />
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <span
+          className="mt-8 text-[10px] tracking-[0.45em] uppercase text-white/50"
+          style={{
+            writingMode: "vertical-rl",
+            textOrientation: "mixed",
+          }}
+        >
+          Follow Us
+        </span>
+
+        <div className="h-20 w-px bg-white/30 mt-6" />
+      </div>
 
       {/* Content */}
       <div className="relative z-10 flex min-h-screen items-center justify-center px-5 sm:px-8">
