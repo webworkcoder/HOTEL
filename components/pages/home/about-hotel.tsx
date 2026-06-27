@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const reviews = [
   {
@@ -73,10 +74,12 @@ export const AboutHotel = () => {
               and breathtaking city views.
             </p>
 
-            <Button className="w-fit rounded-none px-8 py-6 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer">
-              Read More
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <Link href={"/about"}>
+              <Button className="w-fit rounded-none px-8 py-6 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer">
+                Read More
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
 

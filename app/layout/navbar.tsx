@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface InavLinks {
   id: number;
@@ -56,11 +57,37 @@ export const navLinks: InavLinks[] = [
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 80);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
-      {/* Desktop Navbar */}
-      <header className="absolute top-0 left-0 z-50 w-full">
+      <header
+        className={clsx(
+          "fixed top-0 left-0 z-50 w-full transition-all duration-500",
+          scrolled
+            ? `
+        bg-black/60
+        backdrop-blur-xl
+        shadow-lg
+      `
+            : `
+        bg-transparent
+      `,
+        )}
+      >
         <div className="max-w-content-area w-[90%] mx-auto py-5 flex items-center justify-between">
           {/* Logo */}
           <Link href="/">
@@ -96,7 +123,10 @@ export const Navbar = () => {
           </nav>
 
           {/* CTA */}
-          <Button className="hidden lg:flex rounded-none px-8 py-6 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer">
+          <Button
+            onClick={() => router.push("/rooms")}
+            className="hidden lg:flex rounded-none px-8 py-6 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer"
+          >
             <CalendarRange size={18} />
             Reservation
           </Button>
