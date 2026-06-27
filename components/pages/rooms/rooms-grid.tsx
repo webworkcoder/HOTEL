@@ -2,89 +2,89 @@
 
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
 import { RoomCard } from "@/components/shared/room-card";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { rooms } from "@/data/rooms";
 
-const rooms = [
-  {
-    id: "1",
-    title: "Luxury Suite",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 12000,
-  },
-  {
-    id: "2",
-    title: "Presidential Suite",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 25000,
-  },
-  {
-    id: "3",
-    title: "Deluxe Room",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 15000,
-  },
-  {
-    id: "4",
-    title: "Standard Room",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 9000,
-  },
-  {
-    id: "5",
-    title: "Family Suite",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 18000,
-  },
-  {
-    id: "6",
-    title: "Executive Room",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 11000,
-  },
-  {
-    id: "7",
-    title: "Royal Suite",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 30000,
-  },
-  {
-    id: "8",
-    title: "Ocean View Room",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 17000,
-  },
-  {
-    id: "9",
-    title: "Premium Suite",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 22000,
-  },
-  {
-    id: "10",
-    title: "Deluxe King Room",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 16000,
-  },
-  {
-    id: "11",
-    title: "Garden View Room",
-    image: "/images/gallery.JPG",
-    location: "Hotel Blu Plaza",
-    price: 14000,
-  },
-];
+// const rooms = [
+//   {
+//     id: "1",
+//     title: "Luxury Suite",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 12000,
+//   },
+//   {
+//     id: "2",
+//     title: "Presidential Suite",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 25000,
+//   },
+//   {
+//     id: "3",
+//     title: "Deluxe Room",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 15000,
+//   },
+//   {
+//     id: "4",
+//     title: "Standard Room",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 9000,
+//   },
+//   {
+//     id: "5",
+//     title: "Family Suite",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 18000,
+//   },
+//   {
+//     id: "6",
+//     title: "Executive Room",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 11000,
+//   },
+//   {
+//     id: "7",
+//     title: "Royal Suite",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 30000,
+//   },
+//   {
+//     id: "8",
+//     title: "Ocean View Room",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 17000,
+//   },
+//   {
+//     id: "9",
+//     title: "Premium Suite",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 22000,
+//   },
+//   {
+//     id: "10",
+//     title: "Deluxe King Room",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 16000,
+//   },
+//   {
+//     id: "11",
+//     title: "Garden View Room",
+//     image: "/images/gallery.JPG",
+//     location: "Hotel Blu Plaza",
+//     price: 14000,
+//   },
+// ];
 
 const ITEMS_PER_PAGE = 8;
 

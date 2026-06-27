@@ -1,3 +1,4 @@
+"use client";
 import { useGsapReveal } from "@/hooks/useGsapReveal";
 import React from "react";
 
