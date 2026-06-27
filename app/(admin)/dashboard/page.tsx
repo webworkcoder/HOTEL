@@ -1,5 +1,11 @@
-const Dashboard = () => {
-  return <div>Dashboard</div>;
+import { Dashboard } from "@/components/pages/admin/dashboard/dashboard";
+
+const DashboardPage = () => {
+  return (
+    <>
+      <Dashboard />
+    </>
+  );
 };
 
-export default Dashboard;
+export default DashboardPage;

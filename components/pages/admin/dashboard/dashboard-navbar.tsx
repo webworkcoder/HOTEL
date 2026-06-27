@@ -34,7 +34,7 @@ export const DashboardNavbar = () => {
     <header className="w-full sticky top-0 z-50">
       {/* Glass container */}
       <div className="max-w-content-area w-[90%] mx-auto">
-        <div className="h-16 flex items-center justify-between px-6">
+        <div className="h-16 flex items-center justify-between">
           {/* Logo */}
           <Link
             href="/"
