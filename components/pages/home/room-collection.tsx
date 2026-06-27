@@ -91,17 +91,18 @@ export const RoomCollection = () => {
           <button
             onClick={scrollPrev}
             className="
-              absolute left-2 lg:-left-6 top-1/2 -translate-y-1/2 z-20
+              absolute left-0 lg:-left-6 top-1/2 -translate-y-1/2 z-20
               h-10 w-10 lg:h-12 lg:w-12
               rounded-full
-              bg-black/50
-              text-white
+              md:bg-black/50
+              md:text-muted
               backdrop-blur-xl
               border border-white/10
               flex items-center justify-center
               hover:bg-primary
               transition-all duration-300
               cursor-pointer
+              text-accent
             "
           >
             <ArrowLeft size={20} />
@@ -111,17 +112,18 @@ export const RoomCollection = () => {
           <button
             onClick={scrollNext}
             className="
-              absolute right-2 lg:-right-6 top-1/2 -translate-y-1/2 z-20
+              absolute right-0 lg:-right-6 top-1/2 -translate-y-1/2 z-20
               h-10 w-10 lg:h-12 lg:w-12
               rounded-full
-              bg-black/50
-              text-white
+              md:bg-black/50
+              md:text-muted
               backdrop-blur-xl
               border border-white/10
               flex items-center justify-center
               hover:bg-primary
               transition-all duration-300
               cursor-pointer
+              text-accent
             "
           >
             <ArrowRight size={20} />

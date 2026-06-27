@@ -35,7 +35,7 @@ export const AboutHotel = () => {
           <div className="relative flex justify-center lg:justify-start">
             <div className="relative w-full max-w-137.5 h-112.5">
               {/* Left Image */}
-              <div className="absolute left-0 bottom-0 w-[54%] h-[75%] overflow-hidden shadow-2xl z-10">
+              <div className="absolute left-0 bottom-0 w-[46%] h-[75%] overflow-hidden shadow-2xl z-10">
                 <Image
                   src="/images/room6.png"
                   alt="Luxury Hotel Room"
@@ -45,7 +45,7 @@ export const AboutHotel = () => {
               </div>
 
               {/* Right Image */}
-              <div className="absolute right-0 top-0 w-[54%] h-[85%] overflow-hidden shadow-2xl">
+              <div className="absolute right-0 top-0 w-[50%] h-[85%] overflow-hidden shadow-2xl">
                 <Image
                   src="/images/room5.png"
                   alt="Luxury Suite"
