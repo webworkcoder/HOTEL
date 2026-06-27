@@ -1,4 +1,6 @@
+"use client";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 import { MapPin, Bath, Users, BadgePercent } from "lucide-react";
 
 const facilities = [
@@ -33,6 +35,7 @@ const facilities = [
 ];
 
 export const Facilities = () => {
+  const ref = useGsapReveal("fadeUp");
   return (
     <section className="py-10 lg:py-20 bg-primary-foreground">
       <div className="max-w-content-area w-[90%] mx-auto">
@@ -48,6 +51,7 @@ export const Facilities = () => {
 
             return (
               <div
+                ref={ref}
                 key={facility.id}
                 className={`
                   flex flex-col items-center text-center px-8 py-12

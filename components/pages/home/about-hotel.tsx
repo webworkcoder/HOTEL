@@ -1,7 +1,9 @@
+"use client";
 import Image from "next/image";
 import { ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 
 const reviews = [
   {
@@ -28,6 +30,12 @@ const reviews = [
 ];
 
 export const AboutHotel = () => {
+  const leftImageRef = useGsapReveal("fadeLeft");
+  const rightImageRef = useGsapReveal("fadeRight");
+  const tagRef = useGsapReveal("fadeUp");
+  const titleRef = useGsapReveal("luxuryText");
+  const descRef = useGsapReveal("blurReveal");
+  const buttonRef = useGsapReveal("fadeUp");
   return (
     <section className="py-10 lg:py-20 overflow-hidden bg-primary-foreground">
       <div className="max-w-content-area w-[90%] mx-auto">
@@ -36,7 +44,10 @@ export const AboutHotel = () => {
           <div className="relative flex justify-center lg:justify-start">
             <div className="relative w-full max-w-137.5 h-112.5">
               {/* Left Image */}
-              <div className="absolute left-0 bottom-0 w-[46%] h-[75%] overflow-hidden shadow-2xl z-10">
+              <div
+                className="absolute left-0 bottom-0 w-[46%] h-[75%] overflow-hidden shadow-2xl z-10"
+                ref={leftImageRef}
+              >
                 <Image
                   src="/images/room6.png"
                   alt="Luxury Hotel Room"
@@ -46,7 +57,10 @@ export const AboutHotel = () => {
               </div>
 
               {/* Right Image */}
-              <div className="absolute right-0 top-0 w-[50%] h-[85%] overflow-hidden shadow-2xl">
+              <div
+                className="absolute right-0 top-0 w-[50%] h-[85%] overflow-hidden shadow-2xl"
+                ref={rightImageRef}
+              >
                 <Image
                   src="/images/room5.png"
                   alt="Luxury Suite"
@@ -59,27 +73,35 @@ export const AboutHotel = () => {
 
           {/* Content */}
           <div className="flex flex-col">
-            <span className="uppercase tracking-[0.35em] text-primary text-sm font-semibold mb-5">
+            <span
+              className="uppercase tracking-[0.35em] text-primary text-sm font-semibold mb-5"
+              ref={tagRef}
+            >
               Welcome To Hotel Blu Plaza
             </span>
 
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading leading-tight mb-6">
+            <h2
+              className="text-4xl md:text-5xl lg:text-6xl font-heading leading-tight mb-6"
+              ref={titleRef}
+            >
               Luxury hotel in the heart of the city.
             </h2>
 
-            <p className="text-muted-foreground leading-8 mb-8">
+            <p className="text-muted-foreground leading-8 mb-8" ref={titleRef}>
               Hotel Blu Plaza offers premium accommodation with elegant rooms,
               exceptional hospitality and world-class facilities. Experience
               unforgettable stays with personalized service, modern interiors,
               and breathtaking city views.
             </p>
 
-            <Link href={"/about"}>
-              <Button className="w-fit rounded-none px-8 py-6 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer">
-                Read More
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
+            <div ref={buttonRef}>
+              <Link href={"/about"}>
+                <Button className="w-fit rounded-none px-8 py-6 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer">
+                  Read More
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
 

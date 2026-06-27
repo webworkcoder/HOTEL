@@ -1,3 +1,4 @@
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 import React from "react";
 
 interface SectionHeadingProps {
@@ -15,6 +16,9 @@ export const SectionHeading = ({
   align = "center",
   className,
 }: SectionHeadingProps) => {
+  const tagRef = useGsapReveal("fadeUp");
+  const titleRef = useGsapReveal("luxuryText");
+  const descRef = useGsapReveal("blurReveal");
   return (
     <div
       className={`flex flex-col gap-4 mb-14 ${className} ${
@@ -24,7 +28,7 @@ export const SectionHeading = ({
       }`}
     >
       {tag && (
-        <div className="inline-flex items-center gap-3">
+        <div className="inline-flex items-center gap-3" ref={tagRef}>
           <span className="h-px w-10 bg-primary"></span>
 
           <span className="uppercase tracking-[0.35em] text-primary text-xs font-semibold">
@@ -35,12 +39,18 @@ export const SectionHeading = ({
         </div>
       )}
 
-      <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl leading-tight max-w-3xl">
+      <h2
+        className="font-heading text-3xl sm:text-4xl lg:text-5xl leading-tight max-w-3xl"
+        ref={titleRef}
+      >
         {title}
       </h2>
 
       {description && (
-        <p className="max-w-2xl text-muted-foreground leading-8 text-sm sm:text-base">
+        <p
+          className="max-w-2xl text-muted-foreground leading-8 text-sm sm:text-base"
+          ref={descRef}
+        >
           {description}
         </p>
       )}
