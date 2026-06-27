@@ -14,6 +14,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useNavbarAnimation } from "@/hooks/useNavbarAnimation";
 
 interface InavLinks {
   id: number;
@@ -59,6 +60,7 @@ export const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
+  const navRef = useNavbarAnimation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,6 +77,7 @@ export const Navbar = () => {
   return (
     <>
       <header
+        ref={navRef}
         className={clsx(
           "fixed top-0 left-0 z-50 w-full transition-all duration-500",
           scrolled
@@ -90,9 +93,27 @@ export const Navbar = () => {
       >
         <div className="max-w-content-area w-[90%] mx-auto py-5 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/">
+          <Link
+            href="/"
+            className="
+            group
+            transition-all
+            duration-500
+  "
+          >
             <h2 className="text-3xl lg:text-4xl font-bold font-heading text-primary">
-              Hotel Blu <span className="text-accent">Plaza</span>
+              Hotel Blu{" "}
+              <span
+                className="
+                text-accent
+                inline-block
+                transition-transform
+                duration-500
+                group-hover:translate-x-1
+    "
+              >
+                Plaza
+              </span>
             </h2>
           </Link>
 
@@ -106,9 +127,21 @@ export const Navbar = () => {
                   key={navlink.id}
                   href={navlink.path}
                   className={clsx(
-                    "relative text-sm uppercase tracking-wider transition-all duration-300",
+                    `
+                      nav-link
+                      group
+                      relative
+                      text-sm
+                      uppercase
+                      tracking-[0.25em]
+                      py-2
+                      transition-all
+                      duration-300
+                      hover:-translate-y-1
+                      hover:drop-shadow-[0_0_12px_rgba(255,215,0,0.6)]
+  `,
                     isActive
-                      ? "text-accent font-semibold"
+                      ? "text-accent font-semibold drop-shadow-[0_0_12px_rgba(255,215,0,0.5)]"
                       : "text-white hover:text-primary",
                   )}
                 >
@@ -125,10 +158,35 @@ export const Navbar = () => {
           {/* CTA */}
           <Button
             onClick={() => router.push("/rooms")}
-            className="hidden lg:flex rounded-none px-8 py-6 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer"
+            className="
+              hidden lg:flex
+              rounded-none
+              px-8
+              py-6
+              relative
+              overflow-hidden
+              group
+              bg-primary
+              hover:bg-primary
+              cursor-pointer
+              "
           >
+            <span
+              className="
+              absolute
+              inset-0
+              bg-white/20
+              translate-x-[-100%]
+              group-hover:translate-x-[100%]
+              transition-transform
+              duration-700
+              skew-x-12
+              "
+            />
+
             <CalendarRange size={18} />
-            Reservation
+
+            <span className="relative z-10">Reservation</span>
           </Button>
 
           {/* Mobile Menu Button */}
@@ -150,10 +208,28 @@ export const Navbar = () => {
                 href={item.path}
                 key={item.id}
                 className={clsx(
-                  "flex flex-col items-center gap-1 px-3 py-2 rounded-full transition-all duration-300",
+                  `
+  flex flex-col
+  items-center
+  gap-1
+  px-3
+  py-2
+  rounded-full
+  transition-all
+  duration-300
+  `,
                   isActive
-                    ? "bg-primary text-primary-foreground"
-                    : "text-white/70 hover:text-white",
+                    ? `
+      bg-primary
+      text-primary-foreground
+      scale-110
+      shadow-lg
+    `
+                    : `
+      text-white/70
+      hover:text-white
+      hover:scale-105
+    `,
                 )}
               >
                 <Icon size={20} />
