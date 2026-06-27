@@ -1,20 +1,21 @@
 import { Button } from "@/components/ui/button";
-import { Star } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export const HeroSection = () => {
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
       {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/images/hero-section-hotel.JPG')",
-        }}
+      <Image
+        src="/images/room6.png"
+        alt="Luxury Hotel Room"
+        fill
+        priority
+        className="object-cover object-center"
       />
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/60" />
+      <div className="absolute inset-0 bg-black/55 z-1" />
 
       {/* Content */}
       <div className="relative z-10 flex min-h-screen items-center justify-center px-5 sm:px-8">
@@ -65,11 +66,7 @@ export const HeroSection = () => {
 
         <div className="hidden sm:block w-px h-5 bg-white/30" />
 
-        <p className="flex items-center gap-2 font-medium">
-          4.9/5
-          <Star className="text-yellow-300 fill-yellow-300" size={18} />
-          3.5k Reviews
-        </p>
+        <p className="flex items-center gap-2 font-medium">4.9/5 Ratings</p>
       </div>
     </section>
   );

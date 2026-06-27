@@ -37,7 +37,7 @@ export const AboutHotel = () => {
               {/* Left Image */}
               <div className="absolute left-0 bottom-0 w-[54%] h-[75%] overflow-hidden shadow-2xl z-10">
                 <Image
-                  src="/images/gallery.JPG"
+                  src="/images/room6.png"
                   alt="Luxury Hotel Room"
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-700"
@@ -47,7 +47,7 @@ export const AboutHotel = () => {
               {/* Right Image */}
               <div className="absolute right-0 top-0 w-[54%] h-[85%] overflow-hidden shadow-2xl">
                 <Image
-                  src="/images/gallery.JPG"
+                  src="/images/room5.png"
                   alt="Luxury Suite"
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-700"

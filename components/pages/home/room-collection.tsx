@@ -19,7 +19,7 @@ const rooms = [
     guests: "2 Adults",
     bed: "King Size",
     view: "City View",
-    image: "/images/gallery.JPG",
+    image: "/images/room5.png",
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ const rooms = [
     guests: "3 Adults",
     bed: "King Size",
     view: "Sea View",
-    image: "/images/gallery.JPG",
+    image: "/images/room3.webp",
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ const rooms = [
     guests: "4 Adults",
     bed: "2 King Beds",
     view: "Panoramic View",
-    image: "/images/gallery.JPG",
+    image: "/images/room4.webp",
   },
 ];
 
@@ -190,13 +190,13 @@ export const RoomCollection = () => {
                       </div>
 
                       <div className="flex flex-col sm:flex-row gap-4">
-                        <Button className="rounded-none py-6 w-full sm:w-auto">
+                        <Button className="rounded-none py-6 px-8 w-full sm:w-auto cursor-pointer">
                           Book Now
                         </Button>
 
                         <Button
                           variant="outline"
-                          className="rounded-none py-6 w-full sm:w-auto"
+                          className="rounded-none py-6 px-8 w-full sm:w-auto cursor-pointer"
                         >
                           View Room
                         </Button>
