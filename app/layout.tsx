@@ -5,6 +5,7 @@ import "./globals.css";
 import QueryProvider from "@/providers/query-provider";
 import { Navbar } from "./layout/navbar";
 import { Footer } from "./layout/footer";
+import { LenisProvider } from "@/providers/lenis-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,11 +38,13 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <QueryProvider>
-          <Navbar />
-          {children}
-          <Footer />
-        </QueryProvider>
+        <LenisProvider>
+          <QueryProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </QueryProvider>
+        </LenisProvider>
       </body>
     </html>
   );
