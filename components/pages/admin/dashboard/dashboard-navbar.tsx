@@ -8,8 +8,22 @@ import {
   LayoutDashboard,
   LogOut,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import clsx from "clsx";
 
 export const DashboardNavbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const pathname = usePathname();
 
   const navItems = [
@@ -31,7 +45,21 @@ export const DashboardNavbar = () => {
   ];
 
   return (
-    <header className="w-full sticky top-0 z-50">
+    <header
+      className={clsx(
+        "fixed top-0 left-0 z-50 w-full transition-all duration-500",
+        scrolled
+          ? `
+            bg-black/60
+            backdrop-blur-xl
+            shadow-lg
+            text-muted
+          `
+          : `
+            bg-transparent
+          `,
+      )}
+    >
       {/* Glass container */}
       <div className="max-w-content-area w-[90%] mx-auto">
         <div className="h-16 flex items-center justify-between">
@@ -75,7 +103,7 @@ export const DashboardNavbar = () => {
                       active
                         ? "bg-primary text-white shadow-md"
                         : "text-gray-700 hover:bg-white/70"
-                    }`}
+                    } ${scrolled ? "text-muted" : ""}`}
                 >
                   <Icon className="h-4 w-4" />
                   {item.label}
@@ -91,10 +119,10 @@ export const DashboardNavbar = () => {
               onClick={() => {
                 console.log("logout");
               }}
-              className="flex items-center gap-2 cursor-pointer"
+              className={`${scrolled ? "text-muted" : "text-gray-700"} flex items-center gap-2 cursor-pointer`}
             >
-              <LogOut className="h-4 w-4 text-gray-700" />
-              <span className="text-sm font-medium text-gray-700">Logout</span>
+              <LogOut className="h-4 w-4 " />
+              <span className="text-sm font-medium">Logout</span>
             </button>
           </div>
         </div>

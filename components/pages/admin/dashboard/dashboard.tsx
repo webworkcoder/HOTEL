@@ -59,7 +59,7 @@ export const Dashboard = () => {
   ];
 
   return (
-    <div className="max-w-content-area w-[90%] mx-auto py-8 space-y-8">
+    <div className="max-w-content-area w-[90%] mx-auto py-10 md:py-20 space-y-8">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Dashboard</h1>

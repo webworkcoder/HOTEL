@@ -69,7 +69,7 @@ export const RoomForm = ({ roomId }: Props) => {
   };
 
   return (
-    <div className="border border-border bg-card p-10 shadow-xl max-w-content-area w-[90%] mx-auto my-10">
+    <div className="border border-border bg-card p-10 shadow-xl max-w-content-area w-[90%] mx-auto my-20">
       <div className="mb-10 flex items-center justify-between">
         <div>
           <p className="uppercase tracking-[0.35em] text-primary text-xs">
