@@ -38,7 +38,7 @@ export const Login = () => {
           <div className="absolute inset-0 bg-black/40" />
 
           <div className="absolute bottom-10 left-10 text-white">
-            <h2 className="text-3xl font-bold">Welcome Back</h2>
+            <h2 className="text-3xl font-bold text-muted">Welcome Back</h2>
             <p className="text-muted text-sm mt-2">
               Experience luxury stays with us
             </p>

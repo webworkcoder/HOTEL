@@ -73,7 +73,7 @@ export const Dashboard = () => {
         {stats.map((item, i) => (
           <div
             key={i}
-            className="p-5 rounded-2xl bg-white shadow-sm border hover:shadow-md transition"
+            className="p-5 bg-primary-foreground shadow-sm border hover:shadow-md transition"
           >
             <h2 className="text-gray-500 text-sm">{item.label}</h2>
             <p className="text-2xl font-bold mt-2">{item.value}</p>
@@ -90,7 +90,7 @@ export const Dashboard = () => {
           {quickActions.map((item, i) => (
             <div
               key={i}
-              className="p-5 rounded-2xl bg-gradient-to-br from-white to-gray-50 border hover:shadow-md cursor-pointer transition"
+              className="p-5 bg-linear-to-br from-white to-gray-50 border hover:shadow-sm cursor-pointer transition"
             >
               <h3 className="font-semibold">{item.label}</h3>
               <p className="text-sm text-gray-500 mt-1">{item.desc}</p>
@@ -103,7 +103,7 @@ export const Dashboard = () => {
       <div>
         <h2 className="text-xl font-semibold mb-4">Recent Bookings</h2>
 
-        <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
+        <div className="bg-primary-foreground border shadow-sm overflow-hidden">
           {recentBookings.map((b, i) => (
             <div
               key={i}
