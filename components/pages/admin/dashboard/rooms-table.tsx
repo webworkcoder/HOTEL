@@ -1,33 +1,47 @@
 "use client";
 
-import { Pencil, Trash2, Eye, BedDouble, DoorOpen } from "lucide-react";
+import { Pencil, Trash2, Eye, BedDouble, DoorOpen, Loader2 } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRooms } from "@/hooks/queries/useRooms";
+import { useDeleteRoom } from "@/hooks/queries/useDeleteRoom";
 
-const rooms = [
-  {
-    _id: "1",
-    name: "Luxury Suite",
-    roomType: "SUITE",
-    pricePerNight: 12000,
-    availability: "AVAILABLE",
-    images: ["/images/room6.png"],
-  },
-  {
-    _id: "2",
-    name: "Presidential Suite",
-    roomType: "DELUXE",
-    pricePerNight: 22000,
-    availability: "BOOKED",
-    images: ["/images/room5.png"],
-  },
-];
+interface Room {
+  _id: string;
+  name: string;
+  roomType: string;
+  pricePerNight: number;
+  availability: "AVAILABLE" | "UNAVAILABLE" | "BOOKED";
+  images: string[];
+}
 
 export const RoomsTable = () => {
+  const { data: roomsData, isLoading, error } = useRooms();
+  const deleteRoom = useDeleteRoom();
+  const rooms: Room[] = (roomsData as any)?.data || [];
+  
+  console.log("Rooms data:", roomsData);
+  console.log("Rooms array:", rooms);
+  console.log("Error:", error);
   return (
     <div className="border border-border bg-card overflow-hidden">
-      <table className="w-full">
+      {error && (
+        <div className="bg-red-50 border-b border-red-200 p-4 text-red-700 text-sm">
+          Error loading rooms: {(error as any)?.message || "Unknown error"}
+        </div>
+      )}
+      {isLoading ? (
+        <div className="flex items-center justify-center p-10">
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          <span className="ml-2 text-muted-foreground">Loading rooms...</span>
+        </div>
+      ) : rooms.length === 0 ? (
+        <div className="text-center p-10 text-muted-foreground">
+          No rooms found. Create one to get started!
+        </div>
+      ) : (
+        <table className="w-full">
         <thead className="bg-muted">
           <tr className="text-left">
             <th className="p-5">Room</th>
@@ -39,7 +53,7 @@ export const RoomsTable = () => {
         </thead>
 
         <tbody>
-          {rooms.map((room) => (
+          {rooms.map((room: Room) => (
             <tr
               key={room._id}
               className="border-t border-border hover:bg-muted/50 transition-all"
@@ -97,7 +111,7 @@ export const RoomsTable = () => {
                   </Link>
 
                   <Link
-                    href={`/dashboard/rooms/${room._id}`}
+                    href={`/admin/dashboard/rooms/${room._id}`}
                     className="
                     h-10
                     w-10
@@ -113,8 +127,16 @@ export const RoomsTable = () => {
                     <Pencil size={18} />
                   </Link>
 
-                  <button className="h-10 w-10 border flex items-center justify-center text-red-500 cursor-pointer">
-                    <Trash2 size={18} />
+                  <button 
+                    onClick={() => deleteRoom.mutate(room._id)}
+                    disabled={deleteRoom.isPending}
+                    className="h-10 w-10 border flex items-center justify-center text-red-500 hover:bg-red-50 cursor-pointer transition-all disabled:opacity-50"
+                  >
+                    {deleteRoom.isPending ? (
+                      <Loader2 size={18} className="animate-spin" />
+                    ) : (
+                      <Trash2 size={18} />
+                    )}
                   </button>
                 </div>
               </td>
@@ -122,6 +144,7 @@ export const RoomsTable = () => {
           ))}
         </tbody>
       </table>
+      )}
     </div>
   );
 };

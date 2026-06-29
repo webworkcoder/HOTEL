@@ -8,7 +8,8 @@ export const useCreateRoom = () => {
   return useMutation({
     mutationFn: api.rooms.create,
 
-    onSuccess: () => {
+    onSuccess: (data: any) => {
+      console.log("Room created successfully:", data);
       toast.success("Room created successfully");
       queryClient.invalidateQueries({
         queryKey: ["rooms"],
@@ -17,7 +18,9 @@ export const useCreateRoom = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
-      toast.error(error?.response?.data?.message || "Failed to create room");
+      console.error("Error creating room:", error);
+      const message = error?.message || error?.response?.data?.message || "Failed to create room";
+      toast.error(message);
     },
   });
 };
