@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Users, BedDouble, Wifi, Coffee, Tv } from "lucide-react";
-
-import { rooms } from "@/data/rooms";
+import { Users, BedDouble, Wifi, Coffee, Loader2 } from "lucide-react";
+import { api } from "@/lib/endpoints";
 import { PageBanner } from "@/components/shared/page-banner";
 import { SuggestedRoom } from "../home/suggested-room";
 import { RoomBookingForm } from "@/components/shared/room-booking-form";
@@ -15,20 +14,57 @@ interface Props {
 }
 
 export const SingleRoom = ({ id }: Props) => {
-  const room = rooms.find((r) => r.id === id);
+  const [room, setRoom] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [activeImage, setActiveImage] = useState<string>("");
 
-  if (!room) {
-    return <div className="py-40 text-center">Room not found</div>;
+  useEffect(() => {
+    const fetchRoom = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const res = await api.rooms.getById(id);
+        const roomData = (res as any)?.data;
+        if (!roomData) {
+          throw new Error("Room not found");
+        }
+        setRoom(roomData);
+        if (roomData.images && roomData.images.length > 0) {
+          setActiveImage(roomData.images[0]);
+        }
+      } catch (err: any) {
+        setError(err.message || "Failed to load room details");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchRoom();
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[600px] gap-3">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+        <p className="text-muted-foreground text-sm font-medium">Loading room details...</p>
+      </div>
+    );
   }
 
-  const [activeImage, setActiveImage] = useState(room.images[0]);
+  if (error || !room) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[600px] gap-4">
+        <div className="text-red-500 font-semibold text-lg">{error || "Room not found"}</div>
+      </div>
+    );
+  }
 
   return (
     <>
       <PageBanner
         title={room.name}
         description={room.description}
-        image={room.images[0]}
+        image={room.images?.[0] || "/images/placeholder.jpg"}
       />
 
       <section className="py-10 lg:py-20">
@@ -38,7 +74,7 @@ export const SingleRoom = ({ id }: Props) => {
             {/* Main Image */}
             <div className="relative h-[650px] overflow-hidden">
               <Image
-                src={activeImage}
+                src={activeImage || "/images/placeholder.jpg"}
                 alt={room.name}
                 fill
                 className="object-cover"
@@ -47,7 +83,7 @@ export const SingleRoom = ({ id }: Props) => {
 
             {/* Side Images */}
             <div className="grid grid-rows-4 gap-5">
-              {room.images.map((image) => (
+              {room.images?.map((image: string) => (
                 <button
                   key={image}
                   onClick={() => setActiveImage(image)}
@@ -81,13 +117,11 @@ export const SingleRoom = ({ id }: Props) => {
                 <div className="grid sm:grid-cols-4 gap-6">
                   <div>
                     <p className="text-muted-foreground">Room Type</p>
-
                     <h3 className="font-semibold text-xl">{room.roomType}</h3>
                   </div>
 
                   <div>
                     <p className="text-muted-foreground">Price</p>
-
                     <h3 className="font-semibold text-xl text-primary">
                       ₹{room.pricePerNight.toLocaleString()}
                     </h3>
@@ -95,13 +129,11 @@ export const SingleRoom = ({ id }: Props) => {
 
                   <div>
                     <p className="text-muted-foreground">Adults</p>
-
                     <h3 className="font-semibold text-xl">{room.maxAdults}</h3>
                   </div>
 
                   <div>
                     <p className="text-muted-foreground">Children</p>
-
                     <h3 className="font-semibold text-xl">
                       {room.maxChildren}
                     </h3>
@@ -112,33 +144,33 @@ export const SingleRoom = ({ id }: Props) => {
               {/* Description */}
               <div className="mb-12">
                 <h2 className="text-3xl font-heading mb-5">About This Room</h2>
-
                 <p className="text-muted-foreground leading-8">
                   {room.description}
                 </p>
               </div>
 
               {/* Amenities */}
-              <div className="mb-12">
-                <h2 className="text-3xl font-heading mb-8">Amenities</h2>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {room.amenities.map((item) => (
-                    <div
-                      key={item}
-                      className="
-                        border border-border
-                        p-5
-                        bg-card
-                        hover:-translate-y-1
-                        transition-all
-                      "
-                    >
-                      ✓ {item}
-                    </div>
-                  ))}
+              {room.amenities && room.amenities.length > 0 && (
+                <div className="mb-12">
+                  <h2 className="text-3xl font-heading mb-8">Amenities</h2>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {room.amenities.map((item: string) => (
+                      <div
+                        key={item}
+                        className="
+                          border border-border
+                          p-5
+                          bg-card
+                          hover:-translate-y-1
+                          transition-all
+                        "
+                      >
+                        ✓ {item}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Highlights */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -166,7 +198,7 @@ export const SingleRoom = ({ id }: Props) => {
 
             {/* Booking */}
             <div className="lg:sticky top-24 h-fit">
-              <RoomBookingForm roomId={room.id} />
+              <RoomBookingForm roomId={room._id} roomPrice={room.pricePerNight} roomName={room.name} />
             </div>
           </div>
         </div>
