@@ -8,7 +8,7 @@ import { api } from "@/lib/endpoints";
 
 const ITEMS_PER_PAGE = 8;
 
-export const RoomsGrid = () => {
+export const RoomsGrid = ({ filters }: { filters: any }) => {
   const [roomsList, setRoomsList] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,14 +30,52 @@ export const RoomsGrid = () => {
     fetchRooms();
   }, []);
 
-  const totalPages = Math.ceil(roomsList.length / ITEMS_PER_PAGE);
+  const filteredRooms = useMemo(() => {
+    return roomsList.filter((room) => {
+      // 1. Filter by Room Type
+      if (filters.roomType !== "All") {
+        const typeMapping: Record<string, string> = {
+          "Standard Room": "STANDARD",
+          "Deluxe Room": "DELUXE",
+          "Luxury Suite": "SUITE",
+          "Presidential Suite": "PRESIDENTIAL",
+        };
+        const mappedType = typeMapping[filters.roomType];
+        if (mappedType && room.roomType !== mappedType) {
+          return false;
+        }
+      }
+
+      // 2. Filter by AC / Non-AC
+      if (filters.acNonAc !== "All") {
+        const hasAC = room.amenities?.some((amenity: string) => 
+          amenity.toLowerCase().includes("air conditioning") || amenity.toLowerCase() === "ac"
+        );
+        if (filters.acNonAc === "AC" && !hasAC) return false;
+        if (filters.acNonAc === "Non-AC" && hasAC) return false;
+      }
+
+      // 3. Filter by Guests count (total number of Adults + Children)
+      if (filters.guestsCount) {
+        const count = parseInt(filters.guestsCount, 10);
+        if (!isNaN(count)) {
+          const totalCapacity = (room.maxAdults || 0) + (room.maxChildren || 0);
+          if (totalCapacity < count) return false;
+        }
+      }
+
+      return true;
+    });
+  }, [roomsList, filters]);
+
+  const totalPages = Math.ceil(filteredRooms.length / ITEMS_PER_PAGE);
 
   const currentRooms = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
-    return roomsList.slice(startIndex, endIndex);
-  }, [currentPage, roomsList]);
+    return filteredRooms.slice(startIndex, endIndex);
+  }, [currentPage, filteredRooms]);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
@@ -164,15 +202,15 @@ export const RoomsGrid = () => {
           <div className="px-5 py-3 bg-secondary/40 border border-border text-sm text-muted-foreground">
             Showing{" "}
             <span className="font-semibold text-primary">
-              {(currentPage - 1) * ITEMS_PER_PAGE + 1}
+              {filteredRooms.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1}
             </span>
             {" - "}
             <span className="font-semibold text-primary">
-              {Math.min(currentPage * ITEMS_PER_PAGE, roomsList.length)}
+              {Math.min(currentPage * ITEMS_PER_PAGE, filteredRooms.length)}
             </span>
             {" of "}
             <span className="font-semibold text-primary">
-              {roomsList.length}
+              {filteredRooms.length}
             </span>{" "}
             rooms
           </div>

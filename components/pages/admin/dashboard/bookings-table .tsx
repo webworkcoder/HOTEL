@@ -76,7 +76,10 @@ export const BookingsTable = () => {
         booking.roomName.toLowerCase().includes(search.toLowerCase());
 
       const matchesPayment =
-        paymentFilter === "ALL" || booking.paymentStatus === paymentFilter;
+        paymentFilter === "ALL" ||
+        booking.paymentStatus === paymentFilter ||
+        (paymentFilter === "PAID" && booking.paymentStatus === "SUCCESS") ||
+        (paymentFilter === "SUCCESS" && booking.paymentStatus === "PAID");
 
       const matchesStatus =
         statusFilter === "ALL" || booking.bookingStatus === statusFilter;
@@ -94,6 +97,7 @@ export const BookingsTable = () => {
 
   const paymentBadge = (status: string) => {
     switch (status) {
+      case "SUCCESS":
       case "PAID":
         return (
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-600 text-xs">

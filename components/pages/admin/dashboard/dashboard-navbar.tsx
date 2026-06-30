@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   CalendarCheck,
   BedDouble,
@@ -10,8 +10,10 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
+import { api } from "@/lib/endpoints";
 
 export const DashboardNavbar = () => {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -116,10 +118,16 @@ export const DashboardNavbar = () => {
           <div className="flex items-center gap-3">
             {/* Logout */}
             <button
-              onClick={() => {
-                console.log("logout");
+              onClick={async () => {
+                try {
+                  await api.admin.logout();
+                } catch (err) {
+                  console.error("Logout API error:", err);
+                }
+                document.cookie = "admin_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                router.push("/login");
               }}
-              className={`${scrolled ? "text-muted" : "text-gray-700"} flex items-center gap-2 cursor-pointer`}
+              className={`${scrolled ? "text-muted" : "text-gray-700"} flex items-center gap-2 cursor-pointer hover:text-primary transition-colors`}
             >
               <LogOut className="h-4 w-4 " />
               <span className="text-sm font-medium">Logout</span>

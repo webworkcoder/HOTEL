@@ -62,7 +62,7 @@ export const Dashboard = () => {
     const availableRooms = rooms.filter((r) => r.availability === "AVAILABLE").length;
     
     const totalRevenue = bookings
-      .filter((b) => b.paymentStatus === "PAID")
+      .filter((b) => b.paymentStatus === "SUCCESS")
       .reduce((sum, b) => sum + b.totalAmount, 0);
 
     // Active guests calculation (checkIn <= today <= checkOut, status not CANCELLED)
@@ -137,7 +137,7 @@ export const Dashboard = () => {
       const match = last6Months.find((m) => m.monthIndex === mIdx && m.year === yr);
       if (match) {
         match.Bookings += 1;
-        if (booking.paymentStatus === "PAID") {
+        if (booking.paymentStatus === "SUCCESS") {
           match.Revenue += booking.totalAmount;
         }
       }
