@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
+import { premiumToast } from "@/components/shared/premium-toast";
 
 export const Login = () => {
   const router = useRouter();
@@ -31,14 +32,29 @@ export const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
+        premiumToast.error({
+          title: "Login Failed",
+          description: data.message || "Invalid credentials. Please try again.",
+        });
+
         setError(data.message || "Login failed");
         return;
       }
 
-      // Redirect to dashboard on successful login
+      premiumToast.success({
+        title: "Welcome Back",
+        description: "Login successful. Redirecting to dashboard...",
+      });
       router.push("/dashboard");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      const message = err instanceof Error ? err.message : "An error occurred";
+
+      premiumToast.error({
+        title: "Something Went Wrong",
+        description: message,
+      });
+
+      setError(message);
     } finally {
       setLoading(false);
     }

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -100,7 +101,7 @@ export const BookingsTable = () => {
       case "SUCCESS":
       case "PAID":
         return (
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-600 text-xs">
+          <span className="inline-flex items-center gap-2 px-3 py-1  bg-green-500/10 text-green-600 text-xs">
             <CheckCircle2 size={14} />
             Paid
           </span>
@@ -108,7 +109,7 @@ export const BookingsTable = () => {
 
       case "PENDING":
         return (
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-600 text-xs">
+          <span className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-500/10 text-yellow-600 text-xs">
             <Clock3 size={14} />
             Pending
           </span>
@@ -116,7 +117,7 @@ export const BookingsTable = () => {
 
       default:
         return (
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 text-red-600 text-xs">
+          <span className="inline-flex items-center gap-2 px-3 py-1 bg-red-500/10 text-red-600 text-xs">
             <XCircle size={14} />
             Failed
           </span>
@@ -134,14 +135,14 @@ export const BookingsTable = () => {
             <p className="text-muted-foreground">Manage hotel reservations</p>
           </div>
 
-          <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center">
+          <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center">
             <CalendarDays className="text-primary" size={28} />
           </div>
         </div>
 
         {/* Filters */}
         <div className="p-6 border-b flex flex-wrap gap-4">
-          <div className="relative flex-1 min-w-[250px]">
+          <div className="relative flex-1 min-w-62.5">
             <Search
               className="absolute left-3 top-1/2 -translate-y-1/2"
               size={18}
@@ -178,7 +179,9 @@ export const BookingsTable = () => {
           {isLoading ? (
             <div className="flex flex-col items-center justify-center p-16 gap-3">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <span className="text-muted-foreground text-sm font-medium">Loading reservations...</span>
+              <span className="text-muted-foreground text-sm font-medium">
+                Loading reservations...
+              </span>
             </div>
           ) : paginatedBookings.length === 0 ? (
             <div className="text-center p-16 text-muted-foreground">
@@ -235,7 +238,9 @@ export const BookingsTable = () => {
                       ₹{booking.totalAmount.toLocaleString()}
                     </td>
 
-                    <td className="p-5">{paymentBadge(booking.paymentStatus)}</td>
+                    <td className="p-5">
+                      {paymentBadge(booking.paymentStatus)}
+                    </td>
 
                     <td className="p-5">
                       <div className="flex justify-center gap-3">
@@ -277,7 +282,7 @@ export const BookingsTable = () => {
         open={!!selectedBooking}
         onOpenChange={() => setSelectedBooking(null)}
       >
-        <DialogContent className="bg-popover border border-border">
+        <DialogContent className="bg-popover border border-border rounded-none">
           <DialogHeader>
             <DialogTitle>Booking Details</DialogTitle>
           </DialogHeader>
@@ -305,7 +310,9 @@ export const BookingsTable = () => {
               </p>
 
               <p>
-                <strong>Stay:</strong> {formatDate(selectedBooking.checkIn)} to {formatDate(selectedBooking.checkOut)} ({selectedBooking.nights} {selectedBooking.nights === 1 ? 'night' : 'nights'})
+                <strong>Stay:</strong> {formatDate(selectedBooking.checkIn)} to{" "}
+                {formatDate(selectedBooking.checkOut)} ({selectedBooking.nights}{" "}
+                {selectedBooking.nights === 1 ? "night" : "nights"})
               </p>
 
               <p>

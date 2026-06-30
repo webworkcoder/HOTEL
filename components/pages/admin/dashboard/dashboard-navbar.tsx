@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { api } from "@/lib/endpoints";
+import { premiumToast } from "@/components/shared/premium-toast";
 
 export const DashboardNavbar = () => {
   const router = useRouter();
@@ -73,7 +74,7 @@ export const DashboardNavbar = () => {
         <div className="h-16 flex items-center justify-between">
           {/* Logo */}
           <Link
-            href="/"
+            href="/dashboard"
             className="
             group
             transition-all
@@ -122,18 +123,32 @@ export const DashboardNavbar = () => {
 
           {/* Right side */}
           <div className="flex items-center gap-3">
-            {/* Logout */}
             <button
               onClick={async () => {
                 try {
                   await api.admin.logout();
+
+                  premiumToast.success({
+                    title: "Logged Out Successfully",
+                    description: "You have been securely signed out.",
+                  });
                 } catch (err) {
                   console.error("Logout API error:", err);
+
+                  premiumToast.error({
+                    title: "Logout Failed",
+                    description: "Unable to complete logout request.",
+                  });
                 }
-                document.cookie = "admin_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+                document.cookie =
+                  "admin_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
                 router.push("/login");
               }}
-              className={`${scrolled ? "text-muted" : "text-gray-700"} flex items-center gap-2 cursor-pointer hover:text-primary transition-colors`}
+              className={`${
+                scrolled ? "text-muted" : "text-gray-700"
+              } flex items-center gap-2 cursor-pointer hover:text-primary transition-colors`}
             >
               <LogOut className="h-4 w-4 " />
               <span className="text-sm font-medium">Logout</span>

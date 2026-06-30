@@ -1,8 +1,17 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
-import { MessageSquare, Mail, Phone, Clock, Eye, X, Loader2 } from "lucide-react";
+import {
+  MessageSquare,
+  Mail,
+  Phone,
+  Clock,
+  Eye,
+  X,
+  Loader2,
+} from "lucide-react";
 import { api } from "@/lib/endpoints";
 import { Button } from "@/components/ui/button";
 
@@ -48,16 +57,20 @@ export default function ConnectPage() {
   };
 
   return (
-    <main className="flex-1 bg-secondary/10 py-20 px-4 min-h-screen">
+    <main className="flex-1 bg-secondary/10 py-10 md:py-20 min-h-screen">
       <div className="max-w-content-area w-[90%] mx-auto bg-card border border-border overflow-hidden my-10 shadow-sm">
         {/* Header */}
         <div className="p-6 border-b flex justify-between items-center bg-card">
           <div>
-            <h2 className="text-3xl font-heading font-bold">Connect Submissions</h2>
-            <p className="text-muted-foreground text-sm mt-1">Manage guest contact messages and inquiries</p>
+            <h2 className="text-3xl font-heading font-bold">
+              Connect Submissions
+            </h2>
+            <p className="text-muted-foreground text-sm mt-1">
+              Manage guest contact messages and inquiries
+            </p>
           </div>
 
-          <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center">
+          <div className="h-14 w-14 rounded-full bg-primary/10 flex items-center justify-center">
             <MessageSquare className="text-primary" size={28} />
           </div>
         </div>
@@ -73,7 +86,9 @@ export default function ConnectPage() {
           {isLoading ? (
             <div className="flex flex-col items-center justify-center p-16 gap-3">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              <span className="text-muted-foreground text-sm font-medium">Loading messages...</span>
+              <span className="text-muted-foreground text-sm font-medium">
+                Loading messages...
+              </span>
             </div>
           ) : messages.length === 0 ? (
             <div className="text-center p-16 text-muted-foreground">
@@ -92,7 +107,10 @@ export default function ConnectPage() {
               </thead>
               <tbody className="divide-y divide-border">
                 {messages.map((msg) => (
-                  <tr key={msg._id} className="hover:bg-muted/30 transition-colors">
+                  <tr
+                    key={msg._id}
+                    className="hover:bg-muted/30 transition-colors"
+                  >
                     <td className="p-5 font-medium text-foreground">
                       <div className="space-y-1">
                         <p className="font-bold text-base">{msg.name}</p>
@@ -110,7 +128,7 @@ export default function ConnectPage() {
                     </td>
 
                     <td className="p-5">
-                      <span className="bg-primary/10 text-primary font-medium text-xs py-1 px-3 rounded-full uppercase tracking-wider">
+                      <span className="bg-primary/10 text-primary font-medium text-xs py-1 px-3  uppercase tracking-wider">
                         {msg.subject || "Connect Inquiry"}
                       </span>
                     </td>
@@ -132,7 +150,7 @@ export default function ConnectPage() {
                           onClick={() => setSelectedMessage(msg)}
                           variant="outline"
                           size="icon"
-                          className="h-10 w-10 border flex items-center justify-center cursor-pointer hover:bg-primary hover:text-white"
+                          className="h-10 w-10 border rounded-none flex items-center justify-center cursor-pointer hover:bg-primary hover:text-white"
                         >
                           <Eye size={18} />
                         </Button>
@@ -161,32 +179,44 @@ export default function ConnectPage() {
               <span className="uppercase tracking-[0.25em] text-primary text-xs font-semibold">
                 Message Detail
               </span>
-              <h3 className="text-2xl font-heading mt-2 font-bold">{selectedMessage.subject || "Connect Inquiry"}</h3>
+              <h3 className="text-2xl font-heading mt-2 font-bold">
+                {selectedMessage.subject || "Connect Inquiry"}
+              </h3>
             </div>
 
             <div className="border-y border-border py-4 space-y-3 text-sm">
               <div className="grid grid-cols-3 gap-2">
                 <span className="text-muted-foreground">Guest Name:</span>
-                <span className="col-span-2 font-semibold text-foreground">{selectedMessage.name}</span>
+                <span className="col-span-2 font-semibold text-foreground">
+                  {selectedMessage.name}
+                </span>
               </div>
               <div className="grid grid-cols-3 gap-2">
                 <span className="text-muted-foreground">Email Address:</span>
-                <span className="col-span-2 text-foreground font-mono">{selectedMessage.email}</span>
+                <span className="col-span-2 text-foreground font-mono">
+                  {selectedMessage.email}
+                </span>
               </div>
               {selectedMessage.phone && (
                 <div className="grid grid-cols-3 gap-2">
                   <span className="text-muted-foreground">Phone Number:</span>
-                  <span className="col-span-2 text-foreground font-mono">{selectedMessage.phone}</span>
+                  <span className="col-span-2 text-foreground font-mono">
+                    {selectedMessage.phone}
+                  </span>
                 </div>
               )}
               <div className="grid grid-cols-3 gap-2">
                 <span className="text-muted-foreground">Submitted At:</span>
-                <span className="col-span-2 text-muted-foreground">{formatDate(selectedMessage.createdAt)}</span>
+                <span className="col-span-2 text-muted-foreground">
+                  {formatDate(selectedMessage.createdAt)}
+                </span>
               </div>
             </div>
 
             <div className="space-y-2">
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Message</h4>
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Message
+              </h4>
               <div className="bg-muted/50 border border-border p-5 text-sm leading-7 text-foreground whitespace-pre-wrap max-h-60 overflow-y-auto">
                 {selectedMessage.message}
               </div>

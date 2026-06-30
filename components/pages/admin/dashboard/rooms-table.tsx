@@ -1,6 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { Pencil, Trash2, Eye, BedDouble, DoorOpen, Loader2 } from "lucide-react";
+import {
+  Pencil,
+  Trash2,
+  Eye,
+  BedDouble,
+  DoorOpen,
+  Loader2,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -73,7 +82,10 @@ export const RoomsTable = () => {
     }
   };
 
-  const handleToggleAvailability = async (id: string, targetStatus: "AVAILABLE" | "UNAVAILABLE") => {
+  const handleToggleAvailability = async (
+    id: string,
+    targetStatus: "AVAILABLE" | "UNAVAILABLE",
+  ) => {
     const room = rooms.find((r) => r._id === id);
     if (!room) return;
 
@@ -87,10 +99,8 @@ export const RoomsTable = () => {
       toast.success("Room availability updated");
       setRooms((prev) =>
         prev.map((r) =>
-          r._id === id
-            ? { ...r, availability: targetStatus }
-            : r
-        )
+          r._id === id ? { ...r, availability: targetStatus } : r,
+        ),
       );
     } catch (err: any) {
       toast.error(err.message || "Failed to update availability");
@@ -117,104 +127,115 @@ export const RoomsTable = () => {
         </div>
       ) : (
         <table className="w-full">
-        <thead className="bg-muted">
-          <tr className="text-left">
-            <th className="p-5">Room</th>
-            <th className="p-5">Type</th>
-            <th className="p-5">Price</th>
-            <th className="p-5">Availability</th>
-            <th className="p-5 text-right">Actions</th>
-          </tr>
-        </thead>
+          <thead className="bg-muted">
+            <tr className="text-left">
+              <th className="p-5">Room</th>
+              <th className="p-5">Type</th>
+              <th className="p-5">Price</th>
+              <th className="p-5">Availability</th>
+              <th className="p-5 text-right">Actions</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {rooms.map((room: Room) => (
-            <tr
-              key={room._id}
-              className="border-t border-border hover:bg-muted/50 transition-all"
-            >
-              <td className="p-5">
-                <div className="flex items-center gap-4">
-                  <div className="relative h-20 w-28 overflow-hidden">
-                    <Image
-                      src={room.images[0]}
-                      alt={room.name}
-                      fill
-                      className="object-cover"
-                    />
+          <tbody>
+            {rooms.map((room: Room) => (
+              <tr
+                key={room._id}
+                className="border-t border-border hover:bg-muted/50 transition-all"
+              >
+                <td className="p-5">
+                  <div className="flex items-center gap-4">
+                    <div className="relative h-20 w-28 overflow-hidden">
+                      <Image
+                        src={room.images[0]}
+                        alt={room.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold">{room.name}</h3>
+
+                      <p className="text-sm text-muted-foreground">
+                        Room ID: {room._id}
+                      </p>
+                    </div>
                   </div>
+                </td>
 
-                  <div>
-                    <h3 className="font-semibold">{room.name}</h3>
+                <td className="p-5">
+                  <span className="bg-primary/10 text-primary px-3 py-1 text-sm">
+                    {room.roomType}
+                  </span>
+                </td>
 
-                    <p className="text-sm text-muted-foreground">
-                      Room ID: {room._id}
-                    </p>
-                  </div>
-                </div>
-              </td>
+                <td className="p-5 font-semibold">
+                  ₹{room.pricePerNight.toLocaleString()}
+                </td>
 
-              <td className="p-5">
-                <span className="bg-primary/10 text-primary px-3 py-1 text-sm">
-                  {room.roomType}
-                </span>
-              </td>
+                <td className="p-5">
+                  <span
+                    className={`px-3 py-1 text-sm ${
+                      room.availability === "AVAILABLE"
+                        ? "bg-green-100 text-green-600"
+                        : "bg-red-100 text-red-600"
+                    }`}
+                  >
+                    {room.availability}
+                  </span>
+                </td>
 
-              <td className="p-5 font-semibold">
-                ₹{room.pricePerNight.toLocaleString()}
-              </td>
+                <td className="p-5">
+                  <div className="flex justify-end gap-2">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          disabled={updatingId !== null}
+                          className="h-10 w-10 border flex items-center justify-center hover:bg-muted transition-all cursor-pointer disabled:opacity-50"
+                        >
+                          {updatingId === room._id ? (
+                            <Loader2
+                              size={18}
+                              className="animate-spin text-primary"
+                            />
+                          ) : (
+                            <DoorOpen size={18} />
+                          )}
+                        </button>
+                      </DropdownMenuTrigger>
 
-              <td className="p-5">
-                <span
-                  className={`px-3 py-1 text-sm ${
-                    room.availability === "AVAILABLE"
-                      ? "bg-green-100 text-green-600"
-                      : "bg-red-100 text-red-600"
-                  }`}
-                >
-                  {room.availability}
-                </span>
-              </td>
+                      <DropdownMenuContent align="end" className="w-36 rounded-none">
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleToggleAvailability(room._id, "AVAILABLE")
+                          }
+                          className={`cursor-pointer rounded-none ${
+                            room.availability === "AVAILABLE"
+                              ? "font-bold text-primary "
+                              : ""
+                          }`}
+                        >
+                          Available
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleToggleAvailability(room._id, "UNAVAILABLE")
+                          }
+                          className={`cursor-pointer rounded-none ${
+                            room.availability === "UNAVAILABLE"
+                              ? "font-bold text-destructive"
+                              : ""
+                          }`}
+                        >
+                          Unavailable
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
 
-              <td className="p-5">
-                <div className="flex justify-end gap-2">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button
-                        disabled={updatingId !== null}
-                        className="h-10 w-10 border flex items-center justify-center hover:bg-muted transition-all cursor-pointer disabled:opacity-50"
-                      >
-                        {updatingId === room._id ? (
-                          <Loader2 size={18} className="animate-spin text-primary" />
-                        ) : (
-                          <DoorOpen size={18} />
-                        )}
-                      </button>
-                    </DropdownMenuTrigger>
-                    
-                    <DropdownMenuContent align="end" className="w-36">
-                      <DropdownMenuItem
-                        onClick={() => handleToggleAvailability(room._id, "AVAILABLE")}
-                        className={`cursor-pointer ${
-                          room.availability === "AVAILABLE" ? "font-bold text-primary" : ""
-                        }`}
-                      >
-                        Available
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleToggleAvailability(room._id, "UNAVAILABLE")}
-                        className={`cursor-pointer ${
-                          room.availability === "UNAVAILABLE" ? "font-bold text-destructive" : ""
-                        }`}
-                      >
-                        Unavailable
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-
-                  <Link
-                    href={`/dashboard/rooms/${room._id}`}
-                    className="
+                    <Link
+                      href={`/dashboard/rooms/${room._id}`}
+                      className="
                     h-10
                     w-10
                     border
@@ -225,50 +246,53 @@ export const RoomsTable = () => {
                     hover:text-white
                     transition-all
   "
-                  >
-                    <Pencil size={18} />
-                  </Link>
+                    >
+                      <Pencil size={18} />
+                    </Link>
 
-                  <button 
-                    onClick={() => {
-                      setRoomToDelete(room._id);
-                      setIsDialogOpen(true);
-                    }}
-                    disabled={deletingId !== null}
-                    className="h-10 w-10 border flex items-center justify-center text-red-500 hover:bg-red-50 cursor-pointer transition-all disabled:opacity-50"
-                  >
-                    {deletingId === room._id ? (
-                      <Loader2 size={18} className="animate-spin" />
-                    ) : (
-                      <Trash2 size={18} />
-                    )}
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                    <button
+                      onClick={() => {
+                        setRoomToDelete(room._id);
+                        setIsDialogOpen(true);
+                      }}
+                      disabled={deletingId !== null}
+                      className="h-10 w-10 border flex items-center justify-center text-red-500 hover:bg-red-50 cursor-pointer transition-all disabled:opacity-50"
+                    >
+                      {deletingId === room._id ? (
+                        <Loader2 size={18} className="animate-spin" />
+                      ) : (
+                        <Trash2 size={18} />
+                      )}
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md rounded-none">
           <DialogHeader>
             <DialogTitle>Confirm Delete</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this room? This action cannot be undone.
+              Are you sure you want to delete this room? This action cannot be
+              undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4 flex gap-2 justify-end">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setIsDialogOpen(false)}
               disabled={deletingId !== null}
+              className="cursor-pointer"
             >
               Cancel
             </Button>
-            <Button 
-              variant="destructive" 
+            <Button
+              className="cursor-pointer"
+              variant="destructive"
               onClick={() => {
                 if (roomToDelete) {
                   handleDelete(roomToDelete);
