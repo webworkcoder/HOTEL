@@ -140,13 +140,16 @@ export const Footer = () => {
 
             <div className="space-y-5 text-white/60">
               <div className="flex gap-4">
-                <MapPin className="text-primary mt-1" size={18} />
-                <p>MG Road, New Delhi, India</p>
+                <MapPin className="text-primary mt-1 shrink-0" size={18} />
+                <p>
+                  Santoshi Mata mandir ke samne, Hotel blu plaza, Hayatpur Rd,
+                  Sector 89, Gurugram, Haryana 122505
+                </p>
               </div>
 
               <div className="flex gap-4">
                 <Phone className="text-primary mt-1" size={18} />
-                <p>+91 9876543210</p>
+                <p>+91 9999984981</p>
               </div>
 
               <div className="flex gap-4">

@@ -4,12 +4,13 @@ const info = [
   {
     icon: MapPin,
     title: "Address",
-    value: "Hotel Blu Plaza, MG Road, New Delhi, India",
+    value:
+      " Santoshi Mata mandir ke samne, Hotel blu plaza, Hayatpur Rd, Sector 89, Gurugram, Haryana 122505",
   },
   {
     icon: Phone,
     title: "Phone",
-    value: "+91 9876543210",
+    value: "+91 9999984981",
   },
   {
     icon: Mail,

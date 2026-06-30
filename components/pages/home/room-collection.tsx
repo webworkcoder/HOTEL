@@ -1,6 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import {
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
@@ -34,6 +44,7 @@ export const RoomCollection = () => {
         setIsLoading(true);
         setError(null);
         const res = await api.rooms.getAll();
+        console.log("res", res);
         setRoomsList(((res as any)?.data || []).slice(0, 5));
       } catch (err: any) {
         setError(err.message || "Failed to load collection");
@@ -71,7 +82,9 @@ export const RoomCollection = () => {
           />
           <div className="flex flex-col items-center justify-center py-20 gap-3">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-muted-foreground text-sm font-medium">Loading collection...</p>
+            <p className="text-muted-foreground text-sm font-medium">
+              Loading collection...
+            </p>
           </div>
         </div>
       </section>
@@ -164,7 +177,7 @@ export const RoomCollection = () => {
 
                             <div>
                               <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-primary">
-                                ₹{(room.pricePerNight / 1000).toFixed(0)}K{" "}
+                                ₹{room.pricePerNight}{" "}
                                 <span className="text-muted-foreground text-sm">
                                   / Night
                                 </span>
@@ -184,28 +197,77 @@ export const RoomCollection = () => {
 
                       <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-8 text-sm">
                         <div>
-                          <p className="text-muted-foreground">Room Size</p>
-                          <p className="font-semibold">45 m²</p>
+                          <p className="text-muted-foreground">Max Children</p>
+                          <p className="font-semibold">{room.maxChildren}</p>
                         </div>
 
                         <div>
-                          <p className="text-muted-foreground">Guests</p>
-                          <p className="font-semibold">{room.maxAdults} Adults</p>
+                          <p className="text-muted-foreground">Max Adults</p>
+                          <p className="font-semibold">
+                            {room.maxAdults} Adults
+                          </p>
                         </div>
 
                         <div>
-                          <p className="text-muted-foreground">Bed</p>
-                          <p className="font-semibold">King Size</p>
+                          <p className="text-muted-foreground">Availability</p>
+                          <p className="font-semibold">{room.availability}</p>
                         </div>
 
                         <div>
-                          <p className="text-muted-foreground">View</p>
-                          <p className="font-semibold">Sea View</p>
+                          <p className="text-muted-foreground">Amenities</p>
+
+                          <div className="flex flex-wrap gap-2">
+                            {room.amenities?.length ? (
+                              room.amenities.map(
+                                (
+                                  amenity:
+                                    | string
+                                    | number
+                                    | bigint
+                                    | boolean
+                                    | ReactElement<
+                                        unknown,
+                                        string | JSXElementConstructor<any>
+                                      >
+                                    | Iterable<ReactNode>
+                                    | ReactPortal
+                                    | Promise<
+                                        | string
+                                        | number
+                                        | bigint
+                                        | boolean
+                                        | ReactPortal
+                                        | ReactElement<
+                                            unknown,
+                                            string | JSXElementConstructor<any>
+                                          >
+                                        | Iterable<ReactNode>
+                                        | null
+                                        | undefined
+                                      >
+                                    | null
+                                    | undefined,
+                                  index: Key | null | undefined,
+                                ) => (
+                                  <span
+                                    key={index}
+                                    className="font-semibold text-sm bg-muted px-2 py-1 rounded"
+                                  >
+                                    {amenity}
+                                  </span>
+                                ),
+                              )
+                            ) : (
+                              <p className="font-semibold text-sm">
+                                No amenities
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
 
                       <div className="flex flex-col sm:flex-row gap-4">
-                        <Button 
+                        <Button
                           disabled={room.availability === "UNAVAILABLE"}
                           onClick={() => router.push(`/rooms/${room._id}`)}
                           className="rounded-none py-6 px-8 w-full sm:w-auto cursor-pointer"

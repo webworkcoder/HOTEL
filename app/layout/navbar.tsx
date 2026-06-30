@@ -9,6 +9,7 @@ import {
   Info,
   Menu,
   Phone,
+  PhoneCall,
 } from "lucide-react";
 import clsx from "clsx";
 import Link from "next/link";
@@ -190,8 +191,11 @@ export const Navbar = () => {
           </Button>
 
           {/* Mobile Menu Button */}
-          <button className="lg:hidden text-white">
-            <Menu size={30} />
+          <button
+            className="lg:hidden text-white"
+            onClick={() => (window.location.href = "tel:+919999984981")}
+          >
+            <PhoneCall size={30} />
           </button>
         </div>
       </header>

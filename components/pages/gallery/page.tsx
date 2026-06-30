@@ -7,95 +7,274 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { SuggestedRoom } from "../home/suggested-room";
 
-const galleryImages = [
+export const galleryImages = [
   {
     id: 1,
     image: "/images/gallery.JPG",
-    title: "Royal Luxury Suite",
+    title: "Grand Lobby Entrance",
     description:
-      "A spacious sanctuary designed with refined elegance and premium comfort.",
+      "A luxurious entrance welcoming guests with elegant interiors and warm ambiance.",
     className: "md:col-span-2 md:row-span-2",
   },
   {
     id: 2,
-    image: "/images/gallery.JPG",
-    title: "Signature Dining Experience",
+    image: "/images/h1.JPG",
+    title: "Premium Reception Area",
     description:
-      "A culinary journey crafted by expert chefs in a sophisticated setting.",
+      "A beautifully designed reception space ensuring a smooth and premium check-in experience.",
     className: "md:col-span-1 md:row-span-1",
   },
   {
     id: 3,
-    image: "/images/gallery.JPG",
-    title: "Infinity Swimming Pool",
-    description: "Relax in calm waters with serene and breathtaking views.",
+    image: "/images/hero.webp",
+    title: "Luxury Hero Suite View",
+    description:
+      "A modern and elegant room setup showcasing comfort and sophistication.",
     className: "md:col-span-1 md:row-span-1",
   },
   {
     id: 4,
-    image: "/images/gallery.JPG",
-    title: "Presidential Grand Suite",
-    description: "An exclusive retreat offering unmatched luxury and privacy.",
+    image: "/images/hero-section-hotel.JPG",
+    title: "Hotel Exterior View",
+    description:
+      "A stunning architectural exterior reflecting modern luxury hospitality.",
     className: "md:col-span-1 md:row-span-2",
   },
+
   {
     id: 5,
-    image: "/images/gallery.JPG",
-    title: "Executive Lounge",
-    description: "A refined space designed for comfort, work, and relaxation.",
-    className: "md:col-span-1 md:row-span-2",
-  },
-  {
-    id: 6,
-    image: "/images/gallery.JPG",
-    title: "Spa & Wellness Retreat",
+    image: "/images/IMG_3317.JPG",
+    title: "Executive Deluxe Room",
     description:
-      "Rejuvenate your body and mind with premium wellness therapies.",
-    className: "md:col-span-2 md:row-span-1",
-  },
-  {
-    id: 7,
-    image: "/images/gallery.JPG",
-    title: "Elegant Luxury Suite",
-    description: "Modern interiors blended with timeless hospitality design.",
-    className: "md:col-span-2 md:row-span-2",
-  },
-  {
-    id: 8,
-    image: "/images/gallery.JPG",
-    title: "Fine Dining Ambience",
-    description:
-      "An elevated dining atmosphere crafted for memorable experiences.",
+      "Spacious deluxe room with premium furnishings and warm lighting.",
     className: "md:col-span-1 md:row-span-1",
   },
   {
-    id: 9,
-    image: "/images/gallery.JPG",
-    title: "Relaxation Poolside",
+    id: 6,
+    image: "/images/IMG_3318.JPG",
+    title: "Modern Luxury Bedroom",
+    description: "Elegant bedroom designed for maximum comfort and relaxation.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 7,
+    image: "/images/IMG_3319.JPG",
+    title: "Premium Interior Setup",
     description:
-      "Unwind in a peaceful environment designed for leisure and comfort.",
+      "Well-crafted interiors with modern design aesthetics and comfort.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 8,
+    image: "/images/IMG_3320.JPG",
+    title: "Luxury Bathroom Suite",
+    description: "Clean and modern bathroom with high-end fittings and design.",
+    className: "md:col-span-1 md:row-span-2",
+  },
+  {
+    id: 9,
+    image: "/images/IMG_3321.JPG",
+    title: "Cozy Double Bed Room",
+    description: "Comfort-focused room ideal for relaxation and peaceful stay.",
     className: "md:col-span-1 md:row-span-1",
   },
   {
     id: 10,
-    image: "/images/gallery.JPG",
-    title: "Premium Presidential Suite",
-    description:
-      "Luxury redefined with spacious design and world-class amenities.",
-    className: "md:col-span-1 md:row-span-2",
+    image: "/images/IMG_3322.JPG",
+    title: "Elegant Bedroom Interior",
+    description: "Soft lighting and modern decor creating a premium ambiance.",
+    className: "md:col-span-1 md:row-span-1",
   },
   {
     id: 11,
-    image: "/images/gallery.JPG",
-    title: "Private Executive Lounge",
-    description: "Exclusive access with a calm and productive atmosphere.",
-    className: "md:col-span-1 md:row-span-2",
+    image: "/images/IMG_3323.JPG",
+    title: "Luxury Bed View",
+    description:
+      "Premium bedding setup designed for ultimate comfort and rest.",
+    className: "md:col-span-1 md:row-span-1",
   },
   {
     id: 12,
-    image: "/images/gallery.JPG",
-    title: "Holistic Spa Experience",
-    description: "A tranquil escape designed to refresh and restore balance.",
+    image: "/images/IMG_3325.JPG",
+    title: "Hotel Corridor Design",
+    description:
+      "A clean and modern hallway reflecting premium hospitality standards.",
+    className: "md:col-span-1 md:row-span-2",
+  },
+
+  {
+    id: 13,
+    image: "/images/IMG_3327.JPG",
+    title: "Stylish Passage Way",
+    description:
+      "Aesthetic corridor design with warm lighting and elegant flooring.",
+    className: "md:col-span-2 md:row-span-2",
+  },
+  {
+    id: 14,
+    image: "/images/IMG_3329.JPG",
+    title: "Outdoor Courtyard",
+    description:
+      "Open space courtyard offering a refreshing and peaceful vibe.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 15,
+    image: "/images/IMG_3330.JPG",
+    title: "Terrace Flooring Area",
+    description:
+      "Beautifully designed terrace space for relaxation and gatherings.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+
+  {
+    id: 16,
+    image: "/images/IMG_3332 (1).JPG",
+    title: "Premium Room Variant",
+    description: "A well-lit modern room offering comfort and elegance.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 17,
+    image: "/images/IMG_3332.JPG",
+    title: "Luxury Room Angle",
+    description: "Another elegant perspective of premium room interiors.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 18,
+    image: "/images/IMG_3333.JPG",
+    title: "Entrance Lobby Detail",
+    description: "Modern lobby design with stylish lighting and decor.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 19,
+    image: "/images/IMG_3334.JPG",
+    title: "Reception Corridor",
+    description: "A refined space connecting main areas of the hotel.",
+    className: "md:col-span-1 md:row-span-2",
+  },
+  {
+    id: 20,
+    image: "/images/IMG_3336.JPG",
+    title: "Premium Dining Setup",
+    description: "Elegant dining area designed for a fine experience.",
+    className: "md:col-span-2 md:row-span-1",
+  },
+  {
+    id: 21,
+    image: "/images/IMG_3337.JPG",
+    title: "Restaurant Ambience",
+    description: "Warm and inviting dining atmosphere for guests.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 22,
+    image: "/images/IMG_3339.JPG",
+    title: "Fine Dining Interior",
+    description: "Sophisticated dining space with modern luxury design.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 23,
+    image: "/images/IMG_3340.JPG",
+    title: "Kitchen Service Area",
+    description:
+      "Clean and professional kitchen setup ensuring quality service.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 24,
+    image: "/images/IMG_3341.JPG",
+    title: "Dining Counter View",
+    description: "Modern serving counter with elegant presentation style.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 25,
+    image: "/images/IMG_3342.JPG",
+    title: "Hallway Perspective",
+    description: "Long corridor showcasing hotel architecture flow.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 26,
+    image: "/images/IMG_3343.JPG",
+    title: "Interior Passage",
+    description: "Clean and minimal passage with premium finish.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 27,
+    image: "/images/IMG_3344.JPG",
+    title: "Room Corridor View",
+    description: "Stylish corridor leading to private rooms.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+
+  {
+    id: 28,
+    image: "/images/IMG_3348.JPG",
+    title: "Hotel Building Exterior",
+    description: "Modern architecture showcasing premium hospitality design.",
+    className: "md:col-span-2 md:row-span-2",
+  },
+  {
+    id: 29,
+    image: "/images/IMG_3349.JPG",
+    title: "Front Elevation View",
+    description: "Clean and elegant front view of the property.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 30,
+    image: "/images/IMG_3351.JPG",
+    title: "Side Building View",
+    description: "Architectural side angle showing structure depth.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 31,
+    image: "/images/IMG_3353.JPG",
+    title: "Hotel Signage Exterior",
+    description: "Brand identity displayed on premium building facade.",
+    className: "md:col-span-1 md:row-span-2",
+  },
+
+  {
+    id: 32,
+    image: "/images/room.webp",
+    title: "Luxury Bedroom Setup",
+    description: "Modern luxury room with elegant lighting and decor.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 33,
+    image: "/images/room3.webp",
+    title: "Premium Suite Design",
+    description: "Spacious suite designed for comfort and relaxation.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 34,
+    image: "/images/room4.webp",
+    title: "Elegant Room Lighting",
+    description: "Warm ambient lighting enhancing room aesthetics.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 35,
+    image: "/images/room5.png",
+    title: "Modern Hotel Room",
+    description: "Clean and stylish room with premium furnishings.",
+    className: "md:col-span-1 md:row-span-1",
+  },
+  {
+    id: 36,
+    image: "/images/room6.png",
+    title: "Luxury Suite Interior",
+    description: "High-end suite designed for a premium guest experience.",
     className: "md:col-span-2 md:row-span-1",
   },
 ];
