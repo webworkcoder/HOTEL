@@ -29,26 +29,27 @@ export const AboutSection = () => {
 
             <div className="space-y-6 text-muted-foreground leading-8">
               <p>
-                Hotel Blu Plaza was founded with a simple vision: to create a
-                place where comfort meets elegance and every guest feels truly
-                valued.
+                Hotel Blu Plaza is designed as a refined retreat where modern
+                comfort blends seamlessly with warm hospitality and elegant
+                living.
               </p>
 
               <p>
-                Located in the heart of the city, our hotel offers premium
-                rooms, exceptional hospitality and world-class amenities
-                carefully designed to provide memorable experiences.
+                Situated in a prime location, we offer thoughtfully designed
+                rooms, premium amenities, and a peaceful atmosphere for both
+                business and leisure travelers.
               </p>
 
               <p>
-                From luxury suites and fine dining to wellness facilities and
-                personalized services, every detail has been thoughtfully
-                crafted for modern travelers.
+                Every space within the hotel reflects attention to detail — from
+                sophisticated interiors to personalized guest services that
+                enhance your stay experience.
               </p>
 
               <p>
-                Whether you are visiting for business, leisure or celebrations,
-                Hotel Blu Plaza ensures every stay becomes a cherished memory.
+                Whether you are here for work, relaxation, or celebration, Hotel
+                Blu Plaza ensures a stay that feels comfortable, memorable, and
+                truly elevated.
               </p>
             </div>
           </div>

@@ -20,8 +20,8 @@ export default function RoomsPage() {
   return (
     <>
       <PageBanner
-        title="Rooms & Suites"
-        description="Discover elegant rooms and luxurious suites designed for comfort, sophistication and unforgettable experiences."
+        title="Elegant Rooms & Luxury Suites"
+        description="Experience thoughtfully designed stays that blend comfort, sophistication, and world-class hospitality for truly memorable moments."
         image="/images/room6.png"
       />
 

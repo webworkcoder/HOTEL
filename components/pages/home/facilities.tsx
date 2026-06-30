@@ -6,30 +6,30 @@ import { MapPin, Bath, Users, BadgePercent } from "lucide-react";
 const facilities = [
   {
     id: 1,
-    title: "Located in the Heart of the City",
+    title: "Prime City Location",
     description:
-      "Ideally located in the city's heart for easy access and convenience.",
+      "Perfectly situated in the heart of the city, offering seamless access to major attractions, business hubs, and transport links.",
     icon: MapPin,
   },
   {
     id: 2,
-    title: "Luxurious, Modern and Comfortable",
+    title: "Elegant & Contemporary Spaces",
     description:
-      "Experience a luxurious, modern and fully equipped space for comfort.",
+      "Thoughtfully designed interiors combining modern aesthetics with luxurious comfort for a refined stay experience.",
     icon: Bath,
   },
   {
     id: 3,
-    title: "Friendly and Welcoming Staff",
+    title: "Warm & Attentive Hospitality",
     description:
-      "Our professional team ensures a delightful stay every single time.",
+      "Our dedicated team ensures personalized service with genuine care, making every guest feel truly welcomed.",
     icon: Users,
   },
   {
     id: 4,
-    title: "Best Prices and Great Offers",
+    title: "Exceptional Value & Exclusive Offers",
     description:
-      "Enjoy unbeatable prices with exclusive deals tailored for you.",
+      "Enjoy premium stays at competitive rates with special deals crafted to enhance your experience.",
     icon: BadgePercent,
   },
 ];

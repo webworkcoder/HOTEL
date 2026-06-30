@@ -12,45 +12,45 @@ import {
 const features = [
   {
     icon: ShieldCheck,
-    title: "Safe & Secure Stay",
+    title: "Secure & Peaceful Stay",
     number: "01",
     description:
-      "Advanced security systems, smart access and trained staff ensure complete peace of mind during your stay.",
+      "Enhanced safety systems, secure access controls, and trained staff ensure a completely worry-free experience throughout your stay.",
   },
   {
     icon: Wifi,
-    title: "High Speed WiFi",
+    title: "Complimentary High-Speed WiFi",
     number: "02",
     description:
-      "Seamless connectivity with complimentary high-speed internet throughout the property.",
+      "Enjoy uninterrupted connectivity with fast and reliable internet access available across the entire property.",
   },
   {
     icon: UtensilsCrossed,
-    title: "Premium Dining",
+    title: "Gourmet Dining Experience",
     number: "03",
     description:
-      "Experience fine dining crafted by experienced chefs using fresh ingredients.",
+      "Savor expertly prepared dishes crafted by professional chefs using fresh, high-quality ingredients.",
   },
   {
     icon: Car,
-    title: "Parking Facility",
+    title: "Convenient Parking Facility",
     number: "04",
     description:
-      "Spacious and secure parking with valet service available for guests.",
+      "Secure and spacious parking with valet assistance available to ensure maximum convenience for guests.",
   },
   {
     icon: Dumbbell,
-    title: "Fitness Center",
+    title: "Modern Fitness Center",
     number: "05",
     description:
-      "State-of-the-art gym facilities to keep your routine uninterrupted.",
+      "Well-equipped gym facilities designed to help you maintain your fitness routine during your stay.",
   },
   {
     icon: ConciergeBell,
-    title: "24/7 Concierge",
+    title: "24/7 Guest Assistance",
     number: "06",
     description:
-      "Dedicated hospitality team available around the clock for assistance.",
+      "Our dedicated concierge team is available round-the-clock to assist with all your needs and requests.",
   },
 ];
 

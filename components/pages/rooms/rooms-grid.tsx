@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -32,7 +33,6 @@ export const RoomsGrid = ({ filters }: { filters: any }) => {
 
   const filteredRooms = useMemo(() => {
     return roomsList.filter((room) => {
-      // 1. Filter by Room Type
       if (filters.roomType !== "All") {
         const typeMapping: Record<string, string> = {
           "Standard Room": "STANDARD",
@@ -46,16 +46,16 @@ export const RoomsGrid = ({ filters }: { filters: any }) => {
         }
       }
 
-      // 2. Filter by AC / Non-AC
       if (filters.acNonAc !== "All") {
-        const hasAC = room.amenities?.some((amenity: string) => 
-          amenity.toLowerCase().includes("air conditioning") || amenity.toLowerCase() === "ac"
+        const hasAC = room.amenities?.some(
+          (amenity: string) =>
+            amenity.toLowerCase().includes("air conditioning") ||
+            amenity.toLowerCase() === "ac",
         );
         if (filters.acNonAc === "AC" && !hasAC) return false;
         if (filters.acNonAc === "Non-AC" && hasAC) return false;
       }
 
-      // 3. Filter by Guests count (total number of Adults + Children)
       if (filters.guestsCount) {
         const count = parseInt(filters.guestsCount, 10);
         if (!isNaN(count)) {
@@ -86,9 +86,9 @@ export const RoomsGrid = ({ filters }: { filters: any }) => {
     <section className="py-10 lg:py-20 bg-background">
       <div className="max-w-content-area w-[90%] mx-auto">
         <SectionHeading
-          tag="Our Rooms"
-          title="Choose Your Perfect Stay"
-          description="Browse our luxury rooms and suites designed to provide elegance, comfort and unforgettable experiences."
+          tag="Luxury Stays"
+          title="Find Your Perfect Room"
+          description="Explore our thoughtfully designed rooms and suites that blend elegance, comfort, and a truly memorable hospitality experience."
         />
 
         {error && (
@@ -100,7 +100,9 @@ export const RoomsGrid = ({ filters }: { filters: any }) => {
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-muted-foreground text-sm font-medium">Loading luxury rooms...</p>
+            <p className="text-muted-foreground text-sm font-medium">
+              Loading luxury rooms...
+            </p>
           </div>
         ) : roomsList.length === 0 ? (
           <div className="text-center py-20 text-muted-foreground">
@@ -115,11 +117,11 @@ export const RoomsGrid = ({ filters }: { filters: any }) => {
               ))}
             </div>
 
-        <div className="flex items-center justify-center gap-2 sm:gap-3 mt-16 flex-wrap">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mt-16 flex-wrap">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="
               h-12 w-12
               flex items-center justify-center
               border border-border
@@ -133,19 +135,19 @@ export const RoomsGrid = ({ filters }: { filters: any }) => {
               disabled:hover:text-foreground
               disabled:hover:border-border
             "
-          >
-            <ChevronLeft size={18} />
-          </button>
+              >
+                <ChevronLeft size={18} />
+              </button>
 
-          {Array.from({ length: totalPages }).map((_, index) => {
-            const page = index + 1;
-            const isActive = currentPage === page;
+              {Array.from({ length: totalPages }).map((_, index) => {
+                const page = index + 1;
+                const isActive = currentPage === page;
 
-            return (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`
+                return (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`
                   h-12 w-12
                   border
                   font-medium
@@ -170,16 +172,16 @@ export const RoomsGrid = ({ filters }: { filters: any }) => {
                       `
                   }
                 `}
-              >
-                {page}
-              </button>
-            );
-          })}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
 
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="
               h-12 w-12
               flex items-center justify-center
               border border-border
@@ -193,28 +195,30 @@ export const RoomsGrid = ({ filters }: { filters: any }) => {
               disabled:hover:text-foreground
               disabled:hover:border-border
             "
-          >
-            <ChevronRight size={18} />
-          </button>
-        </div>
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
 
-        <div className="flex justify-center mt-6">
-          <div className="px-5 py-3 bg-secondary/40 border border-border text-sm text-muted-foreground">
-            Showing{" "}
-            <span className="font-semibold text-primary">
-              {filteredRooms.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1}
-            </span>
-            {" - "}
-            <span className="font-semibold text-primary">
-              {Math.min(currentPage * ITEMS_PER_PAGE, filteredRooms.length)}
-            </span>
-            {" of "}
-            <span className="font-semibold text-primary">
-              {filteredRooms.length}
-            </span>{" "}
-            rooms
-          </div>
-        </div>
+            <div className="flex justify-center mt-6">
+              <div className="px-5 py-3 bg-secondary/40 border border-border text-sm text-muted-foreground">
+                Showing{" "}
+                <span className="font-semibold text-primary">
+                  {filteredRooms.length === 0
+                    ? 0
+                    : (currentPage - 1) * ITEMS_PER_PAGE + 1}
+                </span>
+                {" - "}
+                <span className="font-semibold text-primary">
+                  {Math.min(currentPage * ITEMS_PER_PAGE, filteredRooms.length)}
+                </span>
+                {" of "}
+                <span className="font-semibold text-primary">
+                  {filteredRooms.length}
+                </span>{" "}
+                rooms
+              </div>
+            </div>
           </>
         )}
       </div>

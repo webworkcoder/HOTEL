@@ -3,6 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/providers/lenis-provider";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <LenisProvider>
           {children}
+          <Toaster richColors position="top-right" />
         </LenisProvider>
       </body>
     </html>

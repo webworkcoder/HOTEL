@@ -10,22 +10,22 @@ const reviews = [
     id: 1,
     logo: "B.",
     rating: "4.9/5",
-    label: "Excellent",
-    reviews: "3.5K Reviews on Booking",
+    label: "Exceptional",
+    reviews: "3.5K+ guest reviews on Booking.com",
   },
   {
     id: 2,
     logo: "A",
-    rating: "5/5",
-    label: "Excellent",
-    reviews: "4.1K Reviews on Agoda",
+    rating: "5.0/5",
+    label: "Outstanding",
+    reviews: "4.1K+ traveler reviews on Agoda",
   },
   {
     id: 3,
     logo: <Star className="w-5 h-5 text-primary fill-primary" />,
     rating: "4.8/5",
-    label: "Excellent",
-    reviews: "2.4K Reviews on Tripadvisor",
+    label: "Highly Rated",
+    reviews: "2.4K+ reviews on TripAdvisor",
   },
 ];
 
@@ -77,27 +77,28 @@ export const AboutHotel = () => {
               className="uppercase tracking-[0.35em] text-primary text-sm font-semibold mb-5"
               ref={tagRef}
             >
-              Welcome To Hotel Blu Plaza
+              Welcome to Blu Plaza Hotel & Suites
             </span>
 
             <h2
               className="text-4xl md:text-5xl lg:text-6xl font-heading leading-tight mb-6"
               ref={titleRef}
             >
-              Luxury hotel in the heart of the city.
+              A refined stay in the heart of the city.
             </h2>
 
             <p className="text-muted-foreground leading-8 mb-8" ref={titleRef}>
-              Hotel Blu Plaza offers premium accommodation with elegant rooms,
-              exceptional hospitality and world-class facilities. Experience
-              unforgettable stays with personalized service, modern interiors,
-              and breathtaking city views.
+              Hotel Blu Plaza is designed to offer a seamless blend of elegance,
+              comfort, and modern hospitality. From thoughtfully crafted
+              interiors to personalized service, every detail is created to
+              elevate your stay experience with calm luxury and effortless
+              comfort.
             </p>
 
             <div ref={buttonRef}>
               <Link href={"/about"}>
                 <Button className="w-fit rounded-none px-8 py-6 bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer">
-                  Read More
+                  Discover More
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>

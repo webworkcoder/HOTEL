@@ -177,3 +177,10 @@ html.lenis body {
     transform: translateX(100%);
   }
 }
+
+[data-sonner-toast] {
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-sans);
+  transition: all 0.3s ease;
+}

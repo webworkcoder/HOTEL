@@ -10,34 +10,34 @@ import { SectionHeading } from "@/components/shared/section-heading";
 
 const faq = [
   {
-    question: "What are the check-in and check-out timings?",
+    question: "What time is check-in and check-out?",
     answer:
-      "Guests can check in from 2:00 PM onwards and check out until 11:00 AM. Early check-in and late check-out are subject to availability.",
+      "Check-in begins at 2:00 PM and check-out is available until 11:00 AM. Early arrival or extended stay may be arranged based on availability.",
   },
   {
-    question: "Do you provide airport pickup and drop services?",
+    question: "Do you offer airport transfer services?",
     answer:
-      "Yes, we offer airport pickup and drop services for our guests at an additional charge. Please contact us in advance to arrange transportation.",
+      "Yes, we provide convenient airport pickup and drop services on request. Additional charges may apply, and advance booking is recommended.",
   },
   {
-    question: "Is breakfast included with the room booking?",
+    question: "Is breakfast included in the stay?",
     answer:
-      "Breakfast availability depends on the room package selected during booking. Complimentary breakfast is included in selected room categories.",
+      "Breakfast inclusion depends on the selected room package. Certain categories include complimentary breakfast as part of the stay experience.",
   },
   {
-    question: "Do you have free WiFi throughout the property?",
+    question: "Is WiFi available at the property?",
     answer:
-      "Yes, complimentary high-speed WiFi is available in all rooms, suites and public areas of the hotel.",
+      "Yes, high-speed complimentary WiFi is available throughout the hotel, including guest rooms and common areas.",
   },
   {
-    question: "Are pets allowed inside the hotel?",
+    question: "Are pets allowed at the hotel?",
     answer:
-      "Currently, pets are allowed only in selected room categories. Please contact our team before making your reservation.",
+      "Pets are permitted in selected room types only. We recommend contacting our team in advance to confirm pet-friendly availability.",
   },
   {
-    question: "Can I cancel or modify my booking?",
+    question: "Can I modify or cancel my reservation?",
     answer:
-      "Yes, bookings can be modified or cancelled according to the cancellation policy selected during reservation.",
+      "Yes, bookings can be modified or cancelled according to the policy selected at the time of reservation. Terms may vary by rate plan.",
   },
 ];
 

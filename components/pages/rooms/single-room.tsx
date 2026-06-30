@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
@@ -46,7 +47,9 @@ export const SingleRoom = ({ id }: Props) => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[600px] gap-3">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        <p className="text-muted-foreground text-sm font-medium">Loading room details...</p>
+        <p className="text-muted-foreground text-sm font-medium">
+          Loading room details...
+        </p>
       </div>
     );
   }
@@ -54,7 +57,9 @@ export const SingleRoom = ({ id }: Props) => {
   if (error || !room) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[600px] gap-4">
-        <div className="text-red-500 font-semibold text-lg">{error || "Room not found"}</div>
+        <div className="text-red-500 font-semibold text-lg">
+          {error || "Room not found"}
+        </div>
       </div>
     );
   }
@@ -198,7 +203,12 @@ export const SingleRoom = ({ id }: Props) => {
 
             {/* Booking */}
             <div className="lg:sticky top-24 h-fit">
-              <RoomBookingForm roomId={room._id} roomPrice={room.pricePerNight} roomName={room.name} roomAvailability={room.availability} />
+              <RoomBookingForm
+                roomId={room._id}
+                roomPrice={room.pricePerNight}
+                roomName={room.name}
+                roomAvailability={room.availability}
+              />
             </div>
           </div>
         </div>
