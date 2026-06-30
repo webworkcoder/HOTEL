@@ -10,7 +10,7 @@ export const FloatingWhatsapp = () => {
   );
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999]">
+    <div className="fixed bottom-21 right-4 z-[9999]">
       {/* Outer Glow */}
       <div className="absolute inset-0 rounded-full bg-green-500 opacity-30 blur-xl animate-pulse" />
 

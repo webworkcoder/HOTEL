@@ -24,34 +24,39 @@ export const Footer = () => {
               </p>
             </div>
 
-            <form className="flex flex-col sm:flex-row gap-4">
+            <form className="md:flex flex-col sm:flex-row gap-4 w-full hidden">
               <input
                 type="email"
                 placeholder="Enter your email address"
                 className="
-                  flex-1
-                  h-14
-                  bg-white/5
-                  border
-                  border-white/10
-                  px-5
-                  outline-none
-                  focus:border-primary
-                  placeholder:text-white/40
-                "
+      w-full
+      min-w-0
+      flex-1
+      h-14
+      bg-white/5
+      border
+      border-white/10
+      px-5
+      outline-none
+      focus:border-primary
+      placeholder:text-white/40
+    "
               />
 
               <button
                 className="
-                  h-14
-                  px-8
-                  bg-primary
-                  text-primary-foreground
-                  font-medium
-                  hover:opacity-90
-                  transition-all
-                  cursor-pointer
-                "
+      w-full
+      sm:w-auto
+      h-14
+      px-8
+      bg-primary
+      text-primary-foreground
+      font-medium
+      hover:opacity-90
+      transition-all
+      cursor-pointer
+      shrink-0
+    "
               >
                 Subscribe
               </button>
@@ -182,8 +187,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Developer Credit */}
-        <div className="border-t border-white/5">
+        <div className="border-t border-white/5 pb-28 md:pb-0">
           <div className="max-w-content-area w-[90%] mx-auto py-5 text-center text-sm text-white/40">
             Designed & Developed by{" "}
             <Link
