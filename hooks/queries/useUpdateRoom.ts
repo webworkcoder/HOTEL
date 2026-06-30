@@ -19,6 +19,10 @@ export const useUpdateRoom = () => {
       queryClient.invalidateQueries({
         queryKey: ["room", variables.id],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["admin-room", variables.id],
+      });
     },
 
     onError: () => {

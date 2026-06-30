@@ -176,7 +176,7 @@ export const RoomForm = ({ roomId }: Props) => {
           </p>
 
           <h2 className="text-4xl font-heading mt-3">
-            {isEdit ? "Update Room" : "Create Room"}
+            {isEdit ? "Edit Room" : "Create Room"}
           </h2>
         </div>
       </div>
@@ -345,7 +345,7 @@ export const RoomForm = ({ roomId }: Props) => {
             : isUploading
               ? "Uploading images..."
               : isEdit
-                ? "Update Room"
+                ? "Edit Room"
                 : "Create Room"}
         </button>
       </form>

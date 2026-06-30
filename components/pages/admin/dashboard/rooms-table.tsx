@@ -111,7 +111,7 @@ export const RoomsTable = () => {
                   </Link>
 
                   <Link
-                    href={`/admin/dashboard/rooms/${room._id}`}
+                    href={`/dashboard/rooms/${room._id}`}
                     className="
                     h-10
                     w-10
