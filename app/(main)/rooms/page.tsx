@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { WhyChooseUs } from "@/components/pages/about/why-choose-us";
 import { FAQSection } from "@/components/pages/contact/faq-section";
 import { Facilities } from "@/components/pages/home/facilities";
@@ -8,17 +11,23 @@ import { RoomsGrid } from "@/components/pages/rooms/rooms-grid";
 import { PageBanner } from "@/components/shared/page-banner";
 
 export default function RoomsPage() {
+  const [filters, setFilters] = useState({
+    roomType: "All",
+    acNonAc: "All",
+    guestsCount: "",
+  });
+
   return (
     <>
       <PageBanner
-        title="Rooms & Suites"
-        description="Discover elegant rooms and luxurious suites designed for comfort, sophistication and unforgettable experiences."
+        title="Elegant Rooms & Luxury Suites"
+        description="Experience thoughtfully designed stays that blend comfort, sophistication, and world-class hospitality for truly memorable moments."
         image="/images/room6.png"
       />
 
-      <RoomsFilter />
+      <RoomsFilter filters={filters} onChange={setFilters} />
       <RoomCollection />
-      <RoomsGrid />
+      <RoomsGrid filters={filters} />
       <Facilities />
       <WhyChooseUs />
       <Testimonials />

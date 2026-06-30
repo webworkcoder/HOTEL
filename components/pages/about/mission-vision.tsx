@@ -9,8 +9,9 @@ export const MissionVision = () => {
             </h2>
 
             <p className="text-muted-foreground leading-8">
-              To provide unforgettable hospitality experiences by combining
-              luxury, comfort and exceptional service for every guest.
+              To deliver exceptional hospitality experiences by blending refined
+              luxury, personalized service, and thoughtful attention to every
+              detail that enhances guest comfort and satisfaction.
             </p>
           </div>
 
@@ -20,8 +21,9 @@ export const MissionVision = () => {
             </h2>
 
             <p className="text-muted-foreground leading-8">
-              To become one of the most trusted luxury hospitality destinations
-              known for excellence and memorable guest experiences.
+              To be recognized as a leading destination in luxury hospitality,
+              setting benchmarks for excellence, elegance, and unforgettable
+              guest experiences.
             </p>
           </div>
         </div>

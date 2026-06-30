@@ -5,19 +5,20 @@ export const api = {
   rooms: {
     getAll: () => apiClient.get("/api/rooms"),
     getBySlug: (slug: string) => apiClient.get(`/api/rooms/${slug}`),
-    getById: (id: string) => apiClient.get(`/api/admin/rooms/${id}`),
+    getById: (id: string) => apiClient.get(`/api/admin/rooms/by-id/${id}`),
     create: (data: any) => apiClient.post("/api/admin/rooms", data),
     update: (id: string, data: any) =>
-      apiClient.patch(`/api/admin/rooms/${id}`, data),
-    delete: (id: string) => apiClient.delete(`/api/admin/rooms/${id}`),
+      apiClient.patch(`/api/admin/rooms/by-id/${id}`, data),
+    delete: (id: string) => apiClient.delete(`/api/admin/rooms/by-id/${id}`),
     toggleAvailability: (id: string) =>
-      apiClient.patch("/api/admin/rooms/toggle", { id }),
+      apiClient.patch("/api/admin/toggle", { id }),
   },
 
   bookings: {
     create: (data: any) => apiClient.post("/api/bookings", data),
     getAll: () => apiClient.get("/api/admin/bookings"),
     getById: (id: string) => apiClient.get(`/api/bookings/${id}`),
+    update: (id: string, data: any) => apiClient.patch(`/api/bookings/${id}`, data),
   },
 
   payments: {
@@ -32,5 +33,10 @@ export const api = {
     login: (data: any) => apiClient.post("/api/admin/login", data),
     logout: () => apiClient.post("/api/admin/logout", {}),
     me: () => apiClient.get("/api/admin/me"),
+  },
+
+  contacts: {
+    submit: (data: any) => apiClient.post("/api/contacts", data),
+    getAll: () => apiClient.get("/api/admin/contacts"),
   },
 };

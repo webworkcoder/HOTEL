@@ -2,22 +2,59 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react";
+import { premiumToast } from "@/components/shared/premium-toast";
 
 export const Login = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
     try {
-      await new Promise((res) => setTimeout(res, 1800));
-      console.log({ email, password });
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        premiumToast.error({
+          title: "Login Failed",
+          description: data.message || "Invalid credentials. Please try again.",
+        });
+
+        setError(data.message || "Login failed");
+        return;
+      }
+
+      premiumToast.success({
+        title: "Welcome Back",
+        description: "Login successful. Redirecting to dashboard...",
+      });
+      router.push("/dashboard");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "An error occurred";
+
+      premiumToast.error({
+        title: "Something Went Wrong",
+        description: message,
+      });
+
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -53,6 +90,12 @@ export const Login = () => {
                 Enter your credentials to continue
               </p>
             </div>
+
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Email */}

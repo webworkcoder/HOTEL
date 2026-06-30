@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import { Inter, Playfair_Display } from "next/font/google";
-import QueryProvider from "@/providers/query-provider";
 import { LenisProvider } from "@/providers/lenis-provider";
 import { FloatingWhatsapp } from "@/components/shared/floating-whatsapp";
 import { Navbar } from "../layout/navbar";
@@ -39,12 +38,10 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <LenisProvider>
-          <QueryProvider>
-            <Navbar />
-            {children}
-            <FloatingWhatsapp />
-            <Footer />
-          </QueryProvider>
+          <Navbar />
+          {children}
+          <FloatingWhatsapp />
+          <Footer />
         </LenisProvider>
       </body>
     </html>

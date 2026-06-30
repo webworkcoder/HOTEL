@@ -10,11 +10,10 @@ export default function AboutPage() {
   return (
     <>
       <PageBanner
-        title="About Hotel Blu Plaza"
-        description="Luxury accommodation designed for comfort, elegance and unforgettable experiences."
+        title="Experience Luxury at Hotel Blu Plaza"
+        description="A refined stay crafted with elegance, comfort, and world-class hospitality for unforgettable moments."
         image="/images/gallery.JPG"
       />
-
       <AboutSection />
       <HotelStats />
       <WhyChooseUs />

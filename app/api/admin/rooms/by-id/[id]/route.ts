@@ -1,7 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest } from "next/server";
 import { connectDB } from "@/lib/db";
-import { updateRoomService, deleteRoomService } from "@/services/room.service";
+import { updateRoomService, deleteRoomService, getRoomByIdService } from "@/services/room.service";
+
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    await connectDB();
+
+    const { id } = await params;
+    const room = await getRoomByIdService(id);
+
+    if (!room) {
+      return Response.json(
+        {
+          success: false,
+          message: "Room not found",
+        },
+        { status: 404 },
+      );
+    }
+
+    return Response.json({
+      success: true,
+      data: room,
+    });
+  } catch (error: any) {
+    return Response.json(
+      {
+        success: false,
+        message: error.message,
+      },
+      { status: 500 },
+    );
+  }
+}
 
 export async function PATCH(
   req: NextRequest,

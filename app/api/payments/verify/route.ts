@@ -67,7 +67,6 @@ export async function POST(req: Request) {
     booking.razorpayPaymentId = razorpay_payment_id;
 
     await booking.save();
-    await sendBookingEmails(booking);
 
     return Response.json({
       success: true,

@@ -11,50 +11,50 @@ const testimonials = [
   {
     id: 1,
     name: "Sophia Williams",
-    location: "Delhi",
+    location: "Gurugram",
     rating: 5,
     review:
-      "Exceptional hospitality and luxurious rooms. Every detail was carefully designed to provide a memorable experience.",
+      "An exceptional stay with elegant interiors and warm hospitality. Every moment felt thoughtfully curated for comfort and luxury.",
   },
   {
     id: 2,
     name: "Rahul Sharma",
-    location: "India",
+    location: "Delhi NCR",
     rating: 5,
     review:
-      "Beautiful interiors, excellent food and outstanding customer service throughout our stay.",
+      "The ambience, service, and dining experience were outstanding. A perfect blend of comfort and sophistication.",
   },
   {
     id: 3,
     name: "Emily Johnson",
-    location: "India",
+    location: "Noida",
     rating: 5,
     review:
-      "One of the finest hotel experiences we've ever had. Highly recommended for luxury travelers.",
+      "A truly luxurious experience with world-class service. Everything exceeded our expectations from check-in to checkout.",
   },
   {
     id: 4,
-    name: "Emily Johnson",
-    location: "India",
+    name: "Arjun Mehta",
+    location: "Dwarka",
     rating: 5,
     review:
-      "One of the finest hotel experiences we've ever had. Highly recommended for luxury travelers.",
+      "Impeccable service and beautifully designed rooms. A perfect place for both business and leisure stays.",
   },
   {
     id: 5,
-    name: "Emily Johnson",
-    location: "India",
+    name: "Neha Kapoor",
+    location: "Moti Nagar",
     rating: 5,
     review:
-      "One of the finest hotel experiences we've ever had. Highly recommended for luxury travelers.",
+      "A peaceful and premium stay experience. The staff was extremely courteous and attentive throughout.",
   },
   {
     id: 6,
-    name: "Emily Johnson",
-    location: "India",
+    name: "David Brown",
+    location: "Gurugram",
     rating: 5,
     review:
-      "One of the finest hotel experiences we've ever had. Highly recommended for luxury travelers.",
+      "One of the best hospitality experiences I’ve had in India. Highly recommended for luxury seekers.",
   },
 ];
 

@@ -11,85 +11,91 @@ const galleryImages = [
   {
     id: 1,
     image: "/images/gallery.JPG",
-    title: "Luxury Suite",
-    description: "Elegant interiors with premium comfort.",
+    title: "Royal Luxury Suite",
+    description:
+      "A spacious sanctuary designed with refined elegance and premium comfort.",
     className: "md:col-span-2 md:row-span-2",
   },
   {
     id: 2,
     image: "/images/gallery.JPG",
-    title: "Fine Dining",
-    description: "World-class dining experience.",
+    title: "Signature Dining Experience",
+    description:
+      "A culinary journey crafted by expert chefs in a sophisticated setting.",
     className: "md:col-span-1 md:row-span-1",
   },
   {
     id: 3,
     image: "/images/gallery.JPG",
-    title: "Swimming Pool",
-    description: "Relax with breathtaking views.",
+    title: "Infinity Swimming Pool",
+    description: "Relax in calm waters with serene and breathtaking views.",
     className: "md:col-span-1 md:row-span-1",
   },
   {
     id: 4,
     image: "/images/gallery.JPG",
-    title: "Presidential Suite",
-    description: "Experience unmatched luxury.",
+    title: "Presidential Grand Suite",
+    description: "An exclusive retreat offering unmatched luxury and privacy.",
     className: "md:col-span-1 md:row-span-2",
   },
   {
     id: 5,
     image: "/images/gallery.JPG",
     title: "Executive Lounge",
-    description: "Premium comfort with private lounge access.",
+    description: "A refined space designed for comfort, work, and relaxation.",
     className: "md:col-span-1 md:row-span-2",
   },
   {
     id: 6,
     image: "/images/gallery.JPG",
-    title: "Spa & Wellness",
-    description: "Refresh your body and mind.",
+    title: "Spa & Wellness Retreat",
+    description:
+      "Rejuvenate your body and mind with premium wellness therapies.",
     className: "md:col-span-2 md:row-span-1",
   },
   {
     id: 7,
     image: "/images/gallery.JPG",
-    title: "Luxury Suite",
-    description: "Elegant interiors with premium comfort.",
+    title: "Elegant Luxury Suite",
+    description: "Modern interiors blended with timeless hospitality design.",
     className: "md:col-span-2 md:row-span-2",
   },
   {
     id: 8,
     image: "/images/gallery.JPG",
-    title: "Fine Dining",
-    description: "World-class dining experience.",
+    title: "Fine Dining Ambience",
+    description:
+      "An elevated dining atmosphere crafted for memorable experiences.",
     className: "md:col-span-1 md:row-span-1",
   },
   {
     id: 9,
     image: "/images/gallery.JPG",
-    title: "Swimming Pool",
-    description: "Relax with breathtaking views.",
+    title: "Relaxation Poolside",
+    description:
+      "Unwind in a peaceful environment designed for leisure and comfort.",
     className: "md:col-span-1 md:row-span-1",
   },
   {
     id: 10,
     image: "/images/gallery.JPG",
-    title: "Presidential Suite",
-    description: "Experience unmatched luxury.",
+    title: "Premium Presidential Suite",
+    description:
+      "Luxury redefined with spacious design and world-class amenities.",
     className: "md:col-span-1 md:row-span-2",
   },
   {
     id: 11,
     image: "/images/gallery.JPG",
-    title: "Executive Lounge",
-    description: "Premium comfort with private lounge access.",
+    title: "Private Executive Lounge",
+    description: "Exclusive access with a calm and productive atmosphere.",
     className: "md:col-span-1 md:row-span-2",
   },
   {
     id: 12,
     image: "/images/gallery.JPG",
-    title: "Spa & Wellness",
-    description: "Refresh your body and mind.",
+    title: "Holistic Spa Experience",
+    description: "A tranquil escape designed to refresh and restore balance.",
     className: "md:col-span-2 md:row-span-1",
   },
 ];
@@ -98,9 +104,7 @@ const ITEMS_PER_PAGE = 6;
 
 export const GallerySection = () => {
   const [currentPage, setCurrentPage] = useState(1);
-
   const galleryRef = useRef<HTMLDivElement>(null);
-
   const totalPages = Math.ceil(galleryImages.length / ITEMS_PER_PAGE);
 
   const currentImages = useMemo(() => {
@@ -211,7 +215,6 @@ export const GallerySection = () => {
             ))}
           </div>
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex justify-center items-center gap-3 mt-16">
               <button
@@ -223,6 +226,7 @@ export const GallerySection = () => {
                   disabled:opacity-40
                   disabled:cursor-not-allowed
                   hover:bg-primary hover:text-white
+                  cursor-pointer
                   transition-all duration-300
                 "
               >
@@ -237,7 +241,7 @@ export const GallerySection = () => {
                     key={page}
                     onClick={() => changePage(page)}
                     className={`
-                      h-12 w-12 border transition-all duration-300
+                      h-12 w-12 border transition-all duration-300 cursor-pointer
                       ${
                         currentPage === page
                           ? "bg-primary text-white border-primary"
@@ -260,6 +264,7 @@ export const GallerySection = () => {
                   disabled:cursor-not-allowed
                   hover:bg-primary hover:text-white
                   transition-all duration-300
+                  cursor-pointer
                 "
               >
                 <ChevronRight size={18} />
