@@ -15,6 +15,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 interface Room {
   _id: string;
@@ -32,6 +38,7 @@ export const RoomsTable = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [roomToDelete, setRoomToDelete] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   const fetchRooms = async () => {
     try {
@@ -63,6 +70,32 @@ export const RoomsTable = () => {
       toast.error(err.message || "Failed to delete room");
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleToggleAvailability = async (id: string, targetStatus: "AVAILABLE" | "UNAVAILABLE") => {
+    const room = rooms.find((r) => r._id === id);
+    if (!room) return;
+
+    if (room.availability === targetStatus) {
+      return;
+    }
+
+    try {
+      setUpdatingId(id);
+      await api.rooms.toggleAvailability(id);
+      toast.success("Room availability updated");
+      setRooms((prev) =>
+        prev.map((r) =>
+          r._id === id
+            ? { ...r, availability: targetStatus }
+            : r
+        )
+      );
+    } catch (err: any) {
+      toast.error(err.message || "Failed to update availability");
+    } finally {
+      setUpdatingId(null);
     }
   };
 
@@ -145,12 +178,39 @@ export const RoomsTable = () => {
 
               <td className="p-5">
                 <div className="flex justify-end gap-2">
-                  <Link
-                    href={`/rooms/${room._id}`}
-                    className="h-10 w-10 border flex items-center justify-center"
-                  >
-                    <DoorOpen size={18} />
-                  </Link>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        disabled={updatingId !== null}
+                        className="h-10 w-10 border flex items-center justify-center hover:bg-muted transition-all cursor-pointer disabled:opacity-50"
+                      >
+                        {updatingId === room._id ? (
+                          <Loader2 size={18} className="animate-spin text-primary" />
+                        ) : (
+                          <DoorOpen size={18} />
+                        )}
+                      </button>
+                    </DropdownMenuTrigger>
+                    
+                    <DropdownMenuContent align="end" className="w-36">
+                      <DropdownMenuItem
+                        onClick={() => handleToggleAvailability(room._id, "AVAILABLE")}
+                        className={`cursor-pointer ${
+                          room.availability === "AVAILABLE" ? "font-bold text-primary" : ""
+                        }`}
+                      >
+                        Available
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleToggleAvailability(room._id, "UNAVAILABLE")}
+                        className={`cursor-pointer ${
+                          room.availability === "UNAVAILABLE" ? "font-bold text-destructive" : ""
+                        }`}
+                      >
+                        Unavailable
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
 
                   <Link
                     href={`/dashboard/rooms/${room._id}`}

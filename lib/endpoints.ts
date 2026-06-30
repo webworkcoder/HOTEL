@@ -11,7 +11,7 @@ export const api = {
       apiClient.patch(`/api/admin/rooms/by-id/${id}`, data),
     delete: (id: string) => apiClient.delete(`/api/admin/rooms/by-id/${id}`),
     toggleAvailability: (id: string) =>
-      apiClient.patch("/api/admin/rooms/toggle", { id }),
+      apiClient.patch("/api/admin/toggle", { id }),
   },
 
   bookings: {
