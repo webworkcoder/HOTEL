@@ -7,6 +7,7 @@ import {
   BedDouble,
   LayoutDashboard,
   LogOut,
+  MessageSquare,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
@@ -43,6 +44,11 @@ export const DashboardNavbar = () => {
       label: "Rooms",
       href: "/dashboard/rooms",
       icon: BedDouble,
+    },
+    {
+      label: "Connect",
+      href: "/dashboard/connect",
+      icon: MessageSquare,
     },
   ];
 

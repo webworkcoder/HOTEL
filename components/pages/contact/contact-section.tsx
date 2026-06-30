@@ -1,6 +1,55 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { Loader2, Mail, Phone, User, MessageSquare } from "lucide-react";
+import { z } from "zod";
+import { contactSchema } from "@/validations/contact.validation";
+import { api } from "@/lib/endpoints";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+type ContactFormValues = z.infer<typeof contactSchema>;
 
 export const ContactSection = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+      subject: "Connect Inquiry",
+    },
+  });
+
+  const onSubmit = async (values: ContactFormValues) => {
+    try {
+      setIsSubmitting(true);
+      const res = await api.contacts.submit(values);
+      if ((res as any)?.success) {
+        toast.success("Your message has been sent successfully!");
+        reset();
+      } else {
+        toast.error((res as any)?.message || "Failed to send message.");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to send message.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className="pb-20">
       <div className="max-w-content-area w-[90%] mx-auto">
@@ -42,32 +91,88 @@ export const ContactSection = () => {
               Send us a message
             </h2>
 
-            <form className="space-y-6">
-              <input
-                placeholder="Full Name"
-                className="w-full h-14 px-5 border border-border bg-background outline-none"
-              />
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              {/* Full Name */}
+              <div>
+                <label className="mb-2 flex items-center gap-2 font-medium text-sm text-foreground">
+                  <User size={16} />
+                  Full Name
+                </label>
+                <Input
+                  type="text"
+                  placeholder="John Doe"
+                  className="h-12 rounded-none"
+                  {...register("name")}
+                />
+                {errors.name && (
+                  <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>
+                )}
+              </div>
 
-              <input
-                placeholder="Email Address"
-                className="w-full h-14 px-5 border border-border bg-background outline-none"
-              />
+              {/* Email Address */}
+              <div>
+                <label className="mb-2 flex items-center gap-2 font-medium text-sm text-foreground">
+                  <Mail size={16} />
+                  Email Address
+                </label>
+                <Input
+                  type="email"
+                  placeholder="john@example.com"
+                  className="h-12 rounded-none"
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
+                )}
+              </div>
 
-              <input
-                placeholder="Phone Number"
-                className="w-full h-14 px-5 border border-border bg-background outline-none"
-              />
+              {/* Phone Number */}
+              <div>
+                <label className="mb-2 flex items-center gap-2 font-medium text-sm text-foreground">
+                  <Phone size={16} />
+                  Phone Number (Optional)
+                </label>
+                <Input
+                  type="text"
+                  placeholder="10-digit phone number"
+                  className="h-12 rounded-none"
+                  maxLength={10}
+                  onKeyPress={(e) => {
+                    if (!/[0-9]/.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  {...register("phone")}
+                />
+                {errors.phone && (
+                  <p className="text-xs text-red-500 mt-1">{errors.phone.message}</p>
+                )}
+              </div>
 
-              <textarea
-                rows={6}
-                placeholder="Write your message..."
-                className="w-full p-5 border border-border bg-background outline-none resize-none"
-              />
+              {/* Message */}
+              <div>
+                <label className="mb-2 flex items-center gap-2 font-medium text-sm text-foreground">
+                  <MessageSquare size={16} />
+                  Message
+                </label>
+                <textarea
+                  rows={5}
+                  placeholder="Write your message here..."
+                  className="w-full p-4 border border-border bg-background outline-none resize-none text-sm focus:ring-1 focus:ring-primary"
+                  {...register("message")}
+                />
+                {errors.message && (
+                  <p className="text-xs text-red-500 mt-1">{errors.message.message}</p>
+                )}
+              </div>
 
-              <button
+              <Button
+                type="submit"
+                disabled={isSubmitting}
                 className="
                   h-14
                   px-10
+                  rounded-none
                   bg-primary
                   text-primary-foreground
                   uppercase
@@ -75,10 +180,20 @@ export const ContactSection = () => {
                   cursor-pointer
                   hover:opacity-90
                   transition-all
+                  disabled:opacity-50
+                  disabled:cursor-not-allowed
+                  flex items-center justify-center gap-2
                 "
               >
-                Send Message
-              </button>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  "Send Message"
+                )}
+              </Button>
             </form>
           </div>
         </div>

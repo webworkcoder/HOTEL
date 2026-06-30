@@ -34,4 +34,9 @@ export const api = {
     logout: () => apiClient.post("/api/admin/logout", {}),
     me: () => apiClient.get("/api/admin/me"),
   },
+
+  contacts: {
+    submit: (data: any) => apiClient.post("/api/contacts", data),
+    getAll: () => apiClient.get("/api/admin/contacts"),
+  },
 };
