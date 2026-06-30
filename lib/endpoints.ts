@@ -5,11 +5,11 @@ export const api = {
   rooms: {
     getAll: () => apiClient.get("/api/rooms"),
     getBySlug: (slug: string) => apiClient.get(`/api/rooms/${slug}`),
-    getById: (id: string) => apiClient.get(`/api/admin/rooms/${id}`),
+    getById: (id: string) => apiClient.get(`/api/admin/rooms/by-id/${id}`),
     create: (data: any) => apiClient.post("/api/admin/rooms", data),
     update: (id: string, data: any) =>
-      apiClient.patch(`/api/admin/rooms/${id}`, data),
-    delete: (id: string) => apiClient.delete(`/api/admin/rooms/${id}`),
+      apiClient.patch(`/api/admin/rooms/by-id/${id}`, data),
+    delete: (id: string) => apiClient.delete(`/api/admin/rooms/by-id/${id}`),
     toggleAvailability: (id: string) =>
       apiClient.patch("/api/admin/rooms/toggle", { id }),
   },

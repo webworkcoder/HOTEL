@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useCreateRoom } from "@/hooks/queries/use-create-room";
-import { useAdminRoom } from "@/hooks/queries/useAdminRoom";
-import { useUpdateRoom } from "@/hooks/queries/useUpdateRoom";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { X, Upload, Loader2 } from "lucide-react";
+import { X, Upload, Loader2, ChevronLeft } from "lucide-react";
 import Image from "next/image";
+import { api } from "@/lib/endpoints";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 interface RoomData {
   _id: string;
@@ -30,11 +30,8 @@ export const RoomForm = ({ roomId }: Props) => {
   const router = useRouter();
   const isEdit = !!roomId;
 
-  const createRoom = useCreateRoom();
-  const updateRoom = useUpdateRoom();
-  const { data: roomsData } = useAdminRoom(roomId || "");
-  const room: RoomData | undefined = (roomsData as any)?.data?.data;
-
+  const [isLoadingRoom, setIsLoadingRoom] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
@@ -51,29 +48,35 @@ export const RoomForm = ({ roomId }: Props) => {
     },
   });
 
-  useEffect(() => {
-    if (!room) return;
-
-    reset({
-      name: room.name,
-      description: room.description,
-      roomType: room.roomType,
-      pricePerNight: room.pricePerNight,
-      maxAdults: room.maxAdults,
-      maxChildren: room.maxChildren,
-      amenities: room.amenities.join(", "),
-    });
-    setUploadedImages(room.images);
-  }, [room, reset]);
-
-  // Redirect after successful room creation
-  useEffect(() => {
-    if (createRoom.isSuccess && !isEdit) {
-      setTimeout(() => {
-        router.push("/dashboard/rooms");
-      }, 1000);
+  const fetchRoom = async (id: string) => {
+    try {
+      setIsLoadingRoom(true);
+      const res = await api.rooms.getById(id);
+      const room = (res as any)?.data;
+      if (room) {
+        reset({
+          name: room.name,
+          description: room.description,
+          roomType: room.roomType,
+          pricePerNight: room.pricePerNight,
+          maxAdults: room.maxAdults,
+          maxChildren: room.maxChildren,
+          amenities: room.amenities.join(", "),
+        });
+        setUploadedImages(room.images);
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Failed to load room details");
+    } finally {
+      setIsLoadingRoom(false);
     }
-  }, [createRoom.isSuccess, isEdit, router]);
+  };
+
+  useEffect(() => {
+    if (roomId) {
+      fetchRoom(roomId);
+    }
+  }, [roomId]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -83,44 +86,72 @@ export const RoomForm = ({ roomId }: Props) => {
     setIsUploading(true);
 
     try {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-
+      const uploadPromises = Array.from(files).map((file) => {
         // Validate file type
         const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"];
         if (!validImageTypes.includes(file.type)) {
-          setUploadError(`Invalid file type: ${file.name}. Only JPG, PNG, GIF, and WebP are allowed.`);
-          continue;
+          setUploadError((prev) =>
+            prev
+              ? `${prev}\nInvalid file type: ${file.name}. Only JPG, PNG, GIF, and WebP are allowed.`
+              : `Invalid file type: ${file.name}. Only JPG, PNG, GIF, and WebP are allowed.`
+          );
+          return Promise.resolve(null);
         }
 
-        // Convert file to base64 for upload
-        const reader = new FileReader();
-        reader.onload = async () => {
-          try {
-            const base64String = reader.result as string;
-            
-            // Call the API endpoint
-            const response = await fetch("/api/admin/upload", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ file: base64String }),
-            });
+        return new Promise<string | null>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = async () => {
+            try {
+              const base64String = reader.result as string;
 
-            const result = await response.json();
+              // Call the API endpoint
+              const response = await fetch("/api/admin/upload", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ file: base64String }),
+              });
 
-            if (response.ok && result.success && result.url) {
-              setUploadedImages((prev: string[]) => [...prev, result.url as string]);
-            } else {
-              setUploadError(`Failed to upload ${file.name}: ${result.message || "Unknown error"}`);
+              const result = await response.json();
+
+              if (response.ok && result.success && result.url) {
+                resolve(result.url);
+              } else {
+                setUploadError((prev) =>
+                  prev
+                    ? `${prev}\nFailed to upload ${file.name}: ${result.message || "Unknown error"}`
+                    : `Failed to upload ${file.name}: ${result.message || "Unknown error"}`
+                );
+                resolve(null);
+              }
+            } catch (error) {
+              setUploadError((prev) =>
+                prev
+                  ? `${prev}\nFailed to upload ${file.name}`
+                  : `Failed to upload ${file.name}`
+              );
+              console.error(error);
+              resolve(null);
             }
-          } catch (error) {
-            setUploadError(`Failed to upload ${file.name}`);
-            console.error(error);
-          }
-        };
-        reader.readAsDataURL(file);
+          };
+
+          reader.onerror = () => {
+            setUploadError((prev) =>
+              prev ? `${prev}\nFailed to read ${file.name}` : `Failed to read ${file.name}`
+            );
+            resolve(null);
+          };
+
+          reader.readAsDataURL(file);
+        });
+      });
+
+      const uploadedUrls = await Promise.all(uploadPromises);
+      const successfulUrls = uploadedUrls.filter((url): url is string => url !== null);
+
+      if (successfulUrls.length > 0) {
+        setUploadedImages((prev) => [...prev, ...successfulUrls]);
       }
     } catch (error) {
       setUploadError("Upload failed. Please try again.");
@@ -136,7 +167,7 @@ export const RoomForm = ({ roomId }: Props) => {
     setUploadedImages((prev: string[]) => prev.filter((_, i) => i !== index) as string[]);
   };
 
-  const onSubmit = (values: any) => {
+  const onSubmit = async (values: any) => {
     if (uploadedImages.length === 0) {
       setUploadError("Please upload at least one image");
       return;
@@ -156,24 +187,45 @@ export const RoomForm = ({ roomId }: Props) => {
 
     console.log("Submitting room payload:", payload);
 
-    if (isEdit) {
-      updateRoom.mutate({
-        id: roomId!,
-        data: payload,
-      });
-      return;
-    }
+    try {
+      setIsSubmitting(true);
+      if (isEdit) {
+        await api.rooms.update(roomId!, payload);
+        toast.success("Room updated successfully");
+      } else {
+        await api.rooms.create(payload);
+        toast.success("Room created successfully");
+      }
 
-    createRoom.mutate(payload);
+      setTimeout(() => {
+        router.push("/dashboard/rooms");
+      }, 1000);
+    } catch (error: any) {
+      toast.error(error.message || `Failed to ${isEdit ? "update" : "create"} room`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  if (isLoadingRoom) {
+    return (
+      <div className="flex flex-col items-center justify-center p-20 min-h-[400px]">
+        <Loader2 className="h-10 w-10 animate-spin text-primary mb-4" />
+        <p className="text-muted-foreground">Loading room details...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="border border-border bg-card p-10 shadow-xl max-w-content-area w-[90%] mx-auto my-20">
       <div className="mb-10 flex items-center justify-between">
-        <div>
-          <p className="uppercase tracking-[0.35em] text-primary text-xs">
-            Hotel Management
-          </p>
+        <div className="w-full">
+          <div className="flex items-center justify-between w-full">
+            <p className="uppercase tracking-[0.35em] text-primary text-xs">
+              Hotel Management
+            </p>
+            <Button className="cursor-pointer rounded-none px-6 " onClick={() => router.push('/dashboard/rooms')}><ChevronLeft />Back</Button>
+          </div>
 
           <h2 className="text-4xl font-heading mt-3">
             {isEdit ? "Edit Room" : "Create Room"}
@@ -185,58 +237,79 @@ export const RoomForm = ({ roomId }: Props) => {
         onSubmit={handleSubmit(onSubmit)}
         className="grid md:grid-cols-2 gap-6"
       >
-        <input
-          placeholder="Room Name"
-          {...register("name")}
-          className="border p-4"
-        />
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium tracking-wide text-muted-foreground">Room Name</label>
+          <input
+            placeholder="Room Name"
+            {...register("name")}
+            className="border p-4"
+          />
+        </div>
 
-        <input
-          type="number"
-          placeholder="Price Per Night"
-          {...register("pricePerNight")}
-          className="border p-4"
-        />
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium tracking-wide text-muted-foreground">Price Per Night (₹)</label>
+          <input
+            type="number"
+            placeholder="Price Per Night"
+            {...register("pricePerNight")}
+            className="border p-4"
+          />
+        </div>
 
-        <select {...register("roomType")} className="border p-4">
-          <option value="CLASSIC">Classic</option>
-          <option value="DELUXE">Deluxe</option>
-          <option value="DUPLEX">Duplex</option>
-          <option value="SUITE">Suite</option>
-        </select>
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium tracking-wide text-muted-foreground">Room Type</label>
+          <select {...register("roomType")} className="border p-4">
+            <option value="CLASSIC">Classic</option>
+            <option value="DELUXE">Deluxe</option>
+            <option value="DUPLEX">Duplex</option>
+            <option value="SUITE">Suite</option>
+          </select>
+        </div>
 
-        <input
-          type="number"
-          placeholder="Max Adults"
-          {...register("maxAdults")}
-          className="border p-4"
-        />
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium tracking-wide text-muted-foreground">Max Adults</label>
+          <input
+            type="number"
+            placeholder="Max Adults"
+            {...register("maxAdults")}
+            className="border p-4"
+          />
+        </div>
 
-        <input
-          type="number"
-          placeholder="Max Children"
-          {...register("maxChildren")}
-          className="border p-4"
-        />
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium tracking-wide text-muted-foreground">Max Children</label>
+          <input
+            type="number"
+            placeholder="Max Children"
+            {...register("maxChildren")}
+            className="border p-4"
+          />
+        </div>
 
-        <input
-          placeholder="Wifi, TV, AC, Pool"
-          {...register("amenities")}
-          className="border p-4"
-        />
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium tracking-wide text-muted-foreground">Amenities (comma separated)</label>
+          <input
+            placeholder="Wifi, TV, AC, Pool"
+            {...register("amenities")}
+            className="border p-4"
+          />
+        </div>
 
-        <textarea
-          rows={6}
-          placeholder="Room Description"
-          {...register("description")}
-          className="border p-4 md:col-span-2"
-        />
+        <div className="flex flex-col gap-2 md:col-span-2">
+          <label className="text-sm font-medium tracking-wide text-muted-foreground">Room Description</label>
+          <textarea
+            rows={6}
+            placeholder="Room Description"
+            {...register("description")}
+            className="border p-4"
+          />
+        </div>
 
         {/* Image Upload Section */}
         <div className="md:col-span-2 space-y-4">
           <div>
             <div className="flex items-center justify-between mb-3">
-              <label className="block text-sm font-medium">Room Images</label>
+              <label className="block text-sm font-medium text-muted-foreground">Room Images</label>
               {isUploading && (
                 <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full">
                   <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
@@ -244,7 +317,7 @@ export const RoomForm = ({ roomId }: Props) => {
                 </div>
               )}
             </div>
-            
+
             {/* Error Message */}
             {uploadError && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 text-sm">
@@ -253,7 +326,10 @@ export const RoomForm = ({ roomId }: Props) => {
             )}
 
             {/* Upload Input */}
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary transition-colors">
+            <div className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${isUploading
+              ? "border-blue-300 bg-blue-50/50 cursor-not-allowed"
+              : "border-gray-300 hover:border-primary"
+              }`}>
               <input
                 type="file"
                 multiple
@@ -264,13 +340,14 @@ export const RoomForm = ({ roomId }: Props) => {
                 id="image-upload"
               />
               <label
-                htmlFor="image-upload"
-                className="cursor-pointer flex flex-col items-center gap-2"
+                htmlFor={isUploading ? undefined : "image-upload"}
+                className={`flex flex-col items-center gap-2 ${isUploading ? "cursor-not-allowed" : "cursor-pointer"}`}
               >
                 {isUploading ? (
                   <>
                     <Loader2 className="h-8 w-8 text-primary animate-spin" />
-                    <span className="text-sm text-gray-600">Uploading...</span>
+                    <span className="text-sm font-medium text-primary">Uploading room images...</span>
+                    <span className="text-xs text-gray-500">Please wait while your files are uploaded to Cloudinary</span>
                   </>
                 ) : (
                   <>
@@ -329,7 +406,7 @@ export const RoomForm = ({ roomId }: Props) => {
 
         <button
           type="submit"
-          disabled={createRoom.isPending || updateRoom.isPending || isUploading}
+          disabled={isSubmitting || isUploading}
           className="
             bg-primary
             text-white
@@ -337,10 +414,10 @@ export const RoomForm = ({ roomId }: Props) => {
             md:col-span-2
             hover:opacity-90
             transition-all
-            disabled:opacity-50 disabled:cursor-not-allowed
+            disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer
           "
         >
-          {createRoom.isPending || updateRoom.isPending
+          {isSubmitting
             ? "Please wait..."
             : isUploading
               ? "Uploading images..."

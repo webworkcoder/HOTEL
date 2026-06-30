@@ -2,7 +2,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import { Inter, Playfair_Display } from "next/font/google";
-import QueryProvider from "@/providers/query-provider";
 import { LenisProvider } from "@/providers/lenis-provider";
 import { DashboardNavbar } from "@/components/pages/admin/dashboard/dashboard-navbar";
 import { usePathname } from "next/navigation";
@@ -36,10 +35,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <LenisProvider>
-          <QueryProvider>
-            {!isHideNavbar && <DashboardNavbar />}
-            {children}
-          </QueryProvider>
+          {!isHideNavbar && <DashboardNavbar />}
+          {children}
         </LenisProvider>
       </body>
     </html>

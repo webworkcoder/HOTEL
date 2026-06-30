@@ -44,3 +44,7 @@ export const toggleRoomAvailabilityService = async (id: string) => {
     availability: newStatus,
   });
 };
+
+export const getRoomByIdService = async (id: string) => {
+  return repository.getRoomById(id);
+};

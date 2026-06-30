@@ -1,11 +1,20 @@
 "use client";
 
 import { Pencil, Trash2, Eye, BedDouble, DoorOpen, Loader2 } from "lucide-react";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useRooms } from "@/hooks/queries/useRooms";
-import { useDeleteRoom } from "@/hooks/queries/useDeleteRoom";
+import { useEffect, useState } from "react";
+import { api } from "@/lib/endpoints";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface Room {
   _id: string;
@@ -17,18 +26,51 @@ interface Room {
 }
 
 export const RoomsTable = () => {
-  const { data: roomsData, isLoading, error } = useRooms();
-  const deleteRoom = useDeleteRoom();
-  const rooms: Room[] = (roomsData as any)?.data || [];
-  
-  console.log("Rooms data:", roomsData);
-  console.log("Rooms array:", rooms);
-  console.log("Error:", error);
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [roomToDelete, setRoomToDelete] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const fetchRooms = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const roomsData = await api.rooms.getAll();
+      setRooms((roomsData as any)?.data || []);
+    } catch (err: any) {
+      setError(err.message || "Failed to load rooms");
+      toast.error(err.message || "Failed to load rooms");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRooms();
+  }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      setDeletingId(id);
+      await api.rooms.delete(id);
+      toast.success("Room deleted successfully");
+      setRooms((prev) => prev.filter((room) => room._id !== id));
+      setIsDialogOpen(false);
+      setRoomToDelete(null);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to delete room");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <div className="border border-border bg-card overflow-hidden">
       {error && (
         <div className="bg-red-50 border-b border-red-200 p-4 text-red-700 text-sm">
-          Error loading rooms: {(error as any)?.message || "Unknown error"}
+          Error loading rooms: {error}
         </div>
       )}
       {isLoading ? (
@@ -128,11 +170,14 @@ export const RoomsTable = () => {
                   </Link>
 
                   <button 
-                    onClick={() => deleteRoom.mutate(room._id)}
-                    disabled={deleteRoom.isPending}
+                    onClick={() => {
+                      setRoomToDelete(room._id);
+                      setIsDialogOpen(true);
+                    }}
+                    disabled={deletingId !== null}
                     className="h-10 w-10 border flex items-center justify-center text-red-500 hover:bg-red-50 cursor-pointer transition-all disabled:opacity-50"
                   >
-                    {deleteRoom.isPending ? (
+                    {deletingId === room._id ? (
                       <Loader2 size={18} className="animate-spin" />
                     ) : (
                       <Trash2 size={18} />
@@ -145,6 +190,44 @@ export const RoomsTable = () => {
         </tbody>
       </table>
       )}
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Confirm Delete</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this room? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="mt-4 flex gap-2 justify-end">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDialogOpen(false)}
+              disabled={deletingId !== null}
+            >
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={() => {
+                if (roomToDelete) {
+                  handleDelete(roomToDelete);
+                }
+              }}
+              disabled={deletingId !== null}
+            >
+              {deletingId !== null ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
