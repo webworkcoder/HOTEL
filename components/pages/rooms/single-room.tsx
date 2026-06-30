@@ -198,7 +198,7 @@ export const SingleRoom = ({ id }: Props) => {
 
             {/* Booking */}
             <div className="lg:sticky top-24 h-fit">
-              <RoomBookingForm roomId={room._id} roomPrice={room.pricePerNight} roomName={room.name} />
+              <RoomBookingForm roomId={room._id} roomPrice={room.pricePerNight} roomName={room.name} roomAvailability={room.availability} />
             </div>
           </div>
         </div>

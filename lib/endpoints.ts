@@ -18,6 +18,7 @@ export const api = {
     create: (data: any) => apiClient.post("/api/bookings", data),
     getAll: () => apiClient.get("/api/admin/bookings"),
     getById: (id: string) => apiClient.get(`/api/bookings/${id}`),
+    update: (id: string, data: any) => apiClient.patch(`/api/bookings/${id}`, data),
   },
 
   payments: {

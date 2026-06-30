@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { nanoid } from "nanoid";
+import crypto from "crypto";
 import { differenceInDays } from "date-fns";
 import * as bookingRepo from "@/repositories/booking.repository";
 import { getRoomById } from "@/repositories/room.repository";
@@ -30,7 +30,7 @@ export const createBookingService = async (data: any) => {
   }
 
   const totalAmount = nights * room.pricePerNight;
-  const bookingId = `BK-${nanoid(8).toUpperCase()}`;
+  const bookingId = `BK-${crypto.randomBytes(4).toString("hex").toUpperCase()}`;
 
   return bookingRepo.createBooking({
     bookingId,

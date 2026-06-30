@@ -1,14 +1,16 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarDays, Users, User, Mail, Phone } from "lucide-react";
+import { CalendarDays, Users, User, Mail, Phone, Loader2 } from "lucide-react";
 import { z } from "zod";
-
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { createBookingSchema } from "@/validations/booking.validation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { api } from "@/lib/endpoints";
 
 type BookingFormValues = z.infer<typeof createBookingSchema>;
 
@@ -16,13 +18,18 @@ interface Props {
   roomId: string;
   roomPrice?: number;
   roomName?: string;
+  roomAvailability?: string;
 }
 
 export const RoomBookingForm = ({
   roomId,
   roomPrice = 12000,
   roomName = "Luxury Suite",
+  roomAvailability = "AVAILABLE",
 }: Props) => {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -62,8 +69,97 @@ export const RoomBookingForm = ({
 
   const totalAmount = nights * roomPrice;
 
-  const onSubmit = async (values: BookingFormValues) => {
-    console.log(values);
+  useEffect(() => {
+    if (typeof window !== "undefined" && !(window as any).Razorpay) {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
+  const onSubmit = async (values: any) => {
+    if (roomAvailability === "UNAVAILABLE") {
+      toast.error("This room is currently unavailable and cannot be booked.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      
+      // Step 1: Create local booking database entry
+      const createRes = await api.bookings.create(values);
+      const bookingData = (createRes as any)?.data;
+      if (!createRes || !(createRes as any).success || !bookingData) {
+        throw new Error((createRes as any)?.message || "Failed to initiate booking");
+      }
+      
+      const bookingId = bookingData._id;
+
+      // Step 2: Create Razorpay Order
+      const orderRes = await api.payments.createOrder(bookingId);
+      const orderData = (orderRes as any)?.data;
+      if (!orderRes || !(orderRes as any).success || !orderData) {
+        throw new Error((orderRes as any)?.message || "Failed to create payment order");
+      }
+
+      // Step 3: Open Razorpay checkout modal
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_STVgsbCSgwNiwh",
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Hotel Blu Plaza",
+        description: `Booking for ${roomName}`,
+        order_id: orderData.id,
+        handler: async function (response: any) {
+          try {
+            setIsSubmitting(true);
+            // Step 4: Verify signature on backend
+            const verifyRes = await api.payments.verify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              bookingId,
+            });
+
+            if ((verifyRes as any)?.success) {
+              toast.success("Payment verified and booking confirmed!");
+              router.push(`/booking-success?id=${bookingId}`);
+            } else {
+              toast.error("Signature verification failed.");
+            }
+          } catch (err: any) {
+            toast.error(err.message || "Failed to verify signature.");
+          } finally {
+            setIsSubmitting(false);
+          }
+        },
+        prefill: {
+          name: values.guest.fullName,
+          email: values.guest.email,
+          contact: values.guest.phone,
+        },
+        theme: {
+          color: "#c5a27a",
+        },
+        modal: {
+          ondismiss: function () {
+            toast.error("Payment cancelled by guest");
+            setIsSubmitting(false);
+          }
+        }
+      };
+
+      if ((window as any).Razorpay) {
+        const rzp = new (window as any).Razorpay(options);
+        rzp.open();
+      } else {
+        throw new Error("Razorpay payment gateway is not loaded. Please reload the page.");
+      }
+    } catch (err: any) {
+      toast.error(err.message || "An error occurred during reservation.");
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -88,6 +184,12 @@ export const RoomBookingForm = ({
           Reserve your luxury stay in just a few steps.
         </p>
       </div>
+
+      {roomAvailability === "UNAVAILABLE" && (
+        <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 text-destructive text-sm font-semibold flex items-center justify-center text-center">
+          ⚠️ This room is currently unavailable and cannot be reserved.
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Check In */}
@@ -141,9 +243,13 @@ export const RoomBookingForm = ({
             </label>
 
             <Input
-              type="number"
-              min={1}
+              type="text"
               className="h-12 rounded-none"
+              onKeyPress={(e) => {
+                if (!/[0-9]/.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
               {...register("adults", {
                 valueAsNumber: true,
               })}
@@ -163,9 +269,13 @@ export const RoomBookingForm = ({
             </label>
 
             <Input
-              type="number"
-              min={0}
+              type="text"
               className="h-12 rounded-none"
+              onKeyPress={(e) => {
+                if (!/[0-9]/.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
               {...register("children", {
                 valueAsNumber: true,
               })}
@@ -230,8 +340,14 @@ export const RoomBookingForm = ({
               </label>
 
               <Input
-                placeholder="+91 9876543210"
+                placeholder="10-digit Phone Number"
                 className="h-12 rounded-none"
+                maxLength={10}
+                onKeyPress={(e) => {
+                  if (!/[0-9]/.test(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
                 {...register("guest.phone")}
               />
 
@@ -313,15 +429,26 @@ export const RoomBookingForm = ({
 
         <Button
           type="submit"
+          disabled={isSubmitting || roomAvailability === "UNAVAILABLE"}
           className="
             w-full
             h-14
             rounded-none
             text-base
             font-semibold
+            cursor-pointer
           "
         >
-          Reserve Now
+          {roomAvailability === "UNAVAILABLE" ? (
+            "Room Unavailable"
+          ) : isSubmitting ? (
+            <div className="flex items-center justify-center gap-2">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              Processing...
+            </div>
+          ) : (
+            "Reserve Now"
+          )}
         </Button>
       </form>
     </div>

@@ -152,18 +152,26 @@ export const RoomCollection = () => {
                     {/* Content */}
                     <div className="p-6 sm:p-8 lg:p-12 flex flex-col justify-center bg-primary-foreground order-2 lg:order-1">
                       <div className="flex items-start gap-2 mb-5">
-                        <span className="text-sm text-muted-foreground mt-2">
-                          From
-                        </span>
-
-                        <div>
-                          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-primary">
-                            ₹{(room.pricePerNight / 1000).toFixed(0)}K{" "}
-                            <span className="text-muted-foreground text-sm">
-                              / Night
+                        {room.availability === "UNAVAILABLE" ? (
+                          <span className="text-xs uppercase tracking-widest font-bold bg-destructive/10 text-destructive py-2 px-4">
+                            Unavailable
+                          </span>
+                        ) : (
+                          <>
+                            <span className="text-sm text-muted-foreground mt-2">
+                              From
                             </span>
-                          </h3>
-                        </div>
+
+                            <div>
+                              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-primary">
+                                ₹{(room.pricePerNight / 1000).toFixed(0)}K{" "}
+                                <span className="text-muted-foreground text-sm">
+                                  / Night
+                                </span>
+                              </h3>
+                            </div>
+                          </>
+                        )}
                       </div>
 
                       <h3 className="font-heading text-2xl sm:text-3xl mb-4">
@@ -198,6 +206,7 @@ export const RoomCollection = () => {
 
                       <div className="flex flex-col sm:flex-row gap-4">
                         <Button 
+                          disabled={room.availability === "UNAVAILABLE"}
                           onClick={() => router.push(`/rooms/${room._id}`)}
                           className="rounded-none py-6 px-8 w-full sm:w-auto cursor-pointer"
                         >

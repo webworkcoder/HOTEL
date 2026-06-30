@@ -60,6 +60,18 @@ export const bookingConfirmationEmail = (data: any) => {
         </p>
       </div>
 
+      ${
+        data.invoiceUrl
+          ? `
+      <div style="margin: 20px 0; text-align: center;">
+        <a href="${data.invoiceUrl}" target="_blank" style="background-color: #c5a27a; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; display: inline-block;">
+          📥 Download Invoice (Image/PDF)
+        </a>
+      </div>
+      `
+          : ""
+      }
+
       <!-- GUEST INFO -->
       <h3 style="margin-top:15px;">Guest Details</h3>
 

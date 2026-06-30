@@ -23,6 +23,7 @@ export interface IBooking extends Document {
   bookingStatus: BookingStatus;
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
+  invoiceUrl?: string;
 }
 
 const bookingSchema = new Schema<IBooking>(
@@ -112,6 +113,7 @@ const bookingSchema = new Schema<IBooking>(
 
     razorpayOrderId: String,
     razorpayPaymentId: String,
+    invoiceUrl: String,
   },
   {
     timestamps: true,
