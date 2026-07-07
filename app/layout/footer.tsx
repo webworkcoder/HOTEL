@@ -154,7 +154,7 @@ export const Footer = () => {
 
               <div className="flex gap-4">
                 <Mail className="text-primary mt-1" size={18} />
-                <p>info@hotelbluplaza.com</p>
+                <p>hotelblueplaza@gmail.com</p>
               </div>
 
               <div className="flex gap-4">

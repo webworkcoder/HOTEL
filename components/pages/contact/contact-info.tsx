@@ -12,12 +12,12 @@ const info = [
   {
     icon: Phone,
     title: "Phone",
-    value: "+91 9999984981",
+    value: "+91 7011494881",
   },
   {
     icon: Mail,
     title: "Email",
-    value: "info@hotelbluplaza.com",
+    value: "hotelblueplaza@gmail.com",
   },
   {
     icon: Clock,
