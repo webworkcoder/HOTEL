@@ -124,11 +124,12 @@ export const Footer = () => {
             <h3 className="text-xl font-heading mb-6 text-accent">Services</h3>
 
             <div className="flex flex-col gap-4 text-white/60">
-              <p>Luxury Rooms</p>
-              <p>Restaurant & Dining</p>
-              <p>Spa & Wellness</p>
-              <p>Conference Hall</p>
-              <p>Airport Pickup</p>
+              <p>Luxury Rooms & Suites</p>
+              <p>Gourmet Dining Experience</p>
+              <p>Modern Fitness Center</p>
+              <p>Complimentary High-Speed WiFi</p>
+              <p>Convenient Parking Facility</p>
+              <p>24/7 Guest Assistance</p>
             </div>
           </div>
 
