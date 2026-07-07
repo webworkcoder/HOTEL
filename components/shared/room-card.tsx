@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 
+import { useGsapReveal } from "@/hooks/useGsapReveal";
+
 export interface IRoomCardProps {
   id: string;
   title: string;
@@ -23,8 +25,11 @@ export const RoomCard = ({
   href,
   availability = "AVAILABLE",
 }: any) => {
+  const revealRef = useGsapReveal("scale");
+
   return (
     <Link
+      ref={revealRef as any}
       href={href || `/rooms/${id}`}
       className="group block min-w-70 md:min-w-[320px]"
     >

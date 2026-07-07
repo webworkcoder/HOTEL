@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { SectionHeading } from "@/components/shared/section-heading";
 import { SuggestedRoom } from "../home/suggested-room";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 
 export const galleryImages = [
   {
@@ -281,6 +282,82 @@ export const galleryImages = [
 
 const ITEMS_PER_PAGE = 6;
 
+const GalleryItem = ({ item }: { item: any }) => {
+  const ref = useGsapReveal("scale");
+
+  return (
+    <div
+      ref={ref as any}
+      className={`group relative overflow-hidden ${item.className}`}
+    >
+      <Image
+        src={item.image}
+        alt={item.title}
+        fill
+        className="
+          object-cover
+          transition-transform
+          duration-700
+          group-hover:scale-110
+        "
+      />
+
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+      <div
+        className="
+          absolute bottom-0 left-0 right-0 p-6
+          translate-y-8 group-hover:translate-y-0
+          transition-all duration-500
+        "
+      >
+        <div
+          className="
+            inline-flex items-center
+            px-3 py-1 mb-3
+            text-xs uppercase tracking-[0.3em]
+            bg-primary/20 text-primary
+            backdrop-blur-xl border border-primary/20
+          "
+        >
+          Hotel Blu Plaza
+        </div>
+
+        <h3 className="text-white text-2xl font-heading mb-2">
+          {item.title}
+        </h3>
+
+        <p
+          className="
+            text-white/80 leading-7
+            opacity-0 group-hover:opacity-100
+            transition-all duration-500
+          "
+        >
+          {item.description}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const GalleryStatCard = ({ value, label }: { value: string; label: string }) => {
+  const ref = useGsapReveal("scale");
+
+  return (
+    <div
+      ref={ref as any}
+      className="text-center border border-border p-8 bg-card hover:border-primary/40 transition-colors duration-300"
+    >
+      <h3 className="text-4xl font-heading text-primary mb-2">
+        {value}
+      </h3>
+
+      <p className="text-muted-foreground">{label}</p>
+    </div>
+  );
+};
+
 export const GallerySection = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const galleryRef = useRef<HTMLDivElement>(null);
@@ -318,58 +395,7 @@ export const GallerySection = () => {
           {/* Gallery Grid */}
           <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[220px] gap-5">
             {currentImages.map((item) => (
-              <div
-                key={item.id}
-                className={`group relative overflow-hidden ${item.className}`}
-              >
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="
-                    object-cover
-                    transition-transform
-                    duration-700
-                    group-hover:scale-110
-                  "
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                <div
-                  className="
-                    absolute bottom-0 left-0 right-0 p-6
-                    translate-y-8 group-hover:translate-y-0
-                    transition-all duration-500
-                  "
-                >
-                  <div
-                    className="
-                      inline-flex items-center
-                      px-3 py-1 mb-3
-                      text-xs uppercase tracking-[0.3em]
-                      bg-primary/20 text-primary
-                      backdrop-blur-xl border border-primary/20
-                    "
-                  >
-                    Hotel Blu Plaza
-                  </div>
-
-                  <h3 className="text-white text-2xl font-heading mb-2">
-                    {item.title}
-                  </h3>
-
-                  <p
-                    className="
-                      text-white/80 leading-7
-                      opacity-0 group-hover:opacity-100
-                      transition-all duration-500
-                    "
-                  >
-                    {item.description}
-                  </p>
-                </div>
-              </div>
+              <GalleryItem key={item.id} item={item} />
             ))}
           </div>
 
@@ -381,16 +407,7 @@ export const GallerySection = () => {
               ["4.9★", "Average Rating"],
               ["24/7", "Guest Support"],
             ].map(([value, label]) => (
-              <div
-                key={label}
-                className="text-center border border-border p-8 bg-card"
-              >
-                <h3 className="text-4xl font-heading text-primary mb-2">
-                  {value}
-                </h3>
-
-                <p className="text-muted-foreground">{label}</p>
-              </div>
+              <GalleryStatCard key={label} value={value} label={label} />
             ))}
           </div>
 

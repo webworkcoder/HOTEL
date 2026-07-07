@@ -29,6 +29,25 @@ const reviews = [
   },
 ];
 
+const ReviewCard = ({ review }: { review: any }) => {
+  const ref = useGsapReveal("scale");
+  return (
+    <div ref={ref as any} className="flex items-center gap-5">
+      <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center text-2xl font-bold text-primary">
+        {review.logo}
+      </div>
+
+      <div>
+        <div className="flex items-center gap-2">
+          <span className="font-semibold text-xl">{review.rating}</span>
+          <span className="text-primary text-sm font-medium">{review.label}</span>
+        </div>
+        <p className="text-muted-foreground text-sm mt-1">{review.reviews}</p>
+      </div>
+    </div>
+  );
+};
+
 export const AboutHotel = () => {
   const leftImageRef = useGsapReveal("fadeLeft");
   const rightImageRef = useGsapReveal("fadeRight");
@@ -87,7 +106,7 @@ export const AboutHotel = () => {
               A refined stay in the heart of the city.
             </h2>
 
-            <p className="text-muted-foreground leading-8 mb-8" ref={titleRef}>
+            <p className="text-muted-foreground leading-8 mb-8" ref={descRef}>
               Hotel Blu Plaza is designed to offer a seamless blend of elegance,
               comfort, and modern hospitality. From thoughtfully crafted
               interiors to personalized service, every detail is created to
@@ -110,27 +129,7 @@ export const AboutHotel = () => {
         <div className="mt-20 border-t border-border pt-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {reviews.map((review) => (
-              <div key={review.id} className="flex items-center gap-5">
-                <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center text-2xl font-bold text-primary">
-                  {review.logo}
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-xl">
-                      {review.rating}
-                    </span>
-
-                    <span className="text-primary text-sm font-medium">
-                      {review.label}
-                    </span>
-                  </div>
-
-                  <p className="text-muted-foreground text-sm mt-1">
-                    {review.reviews}
-                  </p>
-                </div>
-              </div>
+              <ReviewCard key={review.id} review={review} />
             ))}
           </div>
         </div>

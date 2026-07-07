@@ -1,19 +1,24 @@
+"use client";
 import Image from "next/image";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 
 export const AboutSection = () => {
+  const imageRef = useGsapReveal("fadeLeft");
+  const textRef = useGsapReveal("blurReveal");
+
   return (
-    <section className="py-10 lg:py-20">
+    <section className="py-10 lg:py-20 overflow-hidden">
       <div className="max-w-content-area w-[90%] mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Images */}
-          <div className="relative">
-            <div className="relative h-150 overflow-hidden">
+          <div className="relative" ref={imageRef as any}>
+            <div className="relative h-150 overflow-hidden shadow-2xl">
               <Image
                 src="/images/gallery.JPG"
                 alt="Hotel Blu Plaza"
                 fill
-                className="object-cover"
+                className="object-cover hover:scale-105 transition-transform duration-700"
               />
             </div>
           </div>
@@ -27,7 +32,7 @@ export const AboutSection = () => {
               align="left"
             />
 
-            <div className="space-y-6 text-muted-foreground leading-8">
+            <div className="space-y-6 text-muted-foreground leading-8" ref={textRef as any}>
               <p>
                 Hotel Blu Plaza is designed as a refined retreat where modern
                 comfort blends seamlessly with warm hospitality and elegant

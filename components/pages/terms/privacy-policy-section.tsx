@@ -1,4 +1,6 @@
+"use client";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 
 const sections = [
   {
@@ -42,9 +44,35 @@ const sections = [
       "We reserve the right to update this privacy policy periodically. Changes will be reflected on this page.",
   },
 ];
-export const PrivacyPolicySection = () => {
+
+const PolicyCard = ({ section, index }: { section: any; index: number }) => {
+  const ref = useGsapReveal("fadeUp");
+
   return (
-    <section className="py-10 lg:py-20">
+    <div
+      ref={ref as any}
+      className="border border-border bg-card p-8 h-full hover:border-primary/40 transition-colors duration-300"
+    >
+      <span className="text-primary text-sm font-semibold tracking-[0.3em]">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+
+      <h3 className="text-2xl font-heading mt-4 mb-4">
+        {section.title}
+      </h3>
+
+      <p className="text-muted-foreground leading-8">
+        {section.content}
+      </p>
+    </div>
+  );
+};
+
+export const PrivacyPolicySection = () => {
+  const footerRef = useGsapReveal("fadeUp");
+
+  return (
+    <section className="py-10 lg:py-20 overflow-hidden">
       <div className="max-w-content-area w-[90%] mx-auto">
         <SectionHeading
           tag="Privacy & Security"
@@ -54,26 +82,14 @@ export const PrivacyPolicySection = () => {
 
         <div className="mt-14 grid lg:grid-cols-2 gap-8">
           {sections.map((section, index) => (
-            <div
-              key={section.title}
-              className="border border-border bg-card p-8 h-full"
-            >
-              <span className="text-primary text-sm font-semibold tracking-[0.3em]">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-
-              <h3 className="text-2xl font-heading mt-4 mb-4">
-                {section.title}
-              </h3>
-
-              <p className="text-muted-foreground leading-8">
-                {section.content}
-              </p>
-            </div>
+            <PolicyCard key={section.title} section={section} index={index} />
           ))}
         </div>
 
-        <div className="mt-12 border border-primary/20 bg-primary/5 p-8">
+        <div
+          ref={footerRef as any}
+          className="mt-12 border border-primary/20 bg-primary/5 p-8"
+        >
           <p className="text-muted-foreground leading-8">
             If you have any questions regarding our privacy practices, please
             contact our support team for assistance.

@@ -36,12 +36,12 @@ export const PageBanner = ({ title, description, image }: Props) => {
           Hotel Blu Plaza
         </span>
         <div className="text-center max-w-4xl px-6">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading text-white mb-6">
+          <h1 className="text-2xl md:text-6xl lg:text-7xl font-heading text-white mb-6">
             {title}
           </h1>
 
           {description && (
-            <p className="max-w-2xl mx-auto text-white/80 leading-8 text-lg">
+            <p className="max-w-2xl mx-auto text-white/80 leading-8 text-sm md:text-lg">
               {description}
             </p>
           )}

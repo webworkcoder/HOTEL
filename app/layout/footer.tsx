@@ -149,7 +149,7 @@ export const Footer = () => {
 
               <div className="flex gap-4">
                 <Phone className="text-primary mt-1" size={18} />
-                <p>+91 9999984981</p>
+                <p>+91 7011494881</p>
               </div>
 
               <div className="flex gap-4">

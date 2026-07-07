@@ -13,11 +13,14 @@ import { api } from "@/lib/endpoints";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { premiumToast } from "@/components/shared/premium-toast";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 export const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const leftRef = useGsapReveal("fadeLeft");
+  const rightRef = useGsapReveal("fadeRight");
 
   const {
     register,
@@ -63,10 +66,10 @@ export const ContactSection = () => {
   };
 
   return (
-    <section className="pb-20">
+    <section className="pb-20 overflow-hidden">
       <div className="max-w-content-area w-[90%] mx-auto">
         <div className="grid lg:grid-cols-2 overflow-hidden border border-border bg-card">
-          <div className="relative min-h-125">
+          <div ref={leftRef as any} className="relative min-h-125">
             <Image
               src="/images/room6.png"
               alt="Hotel Blu Plaza"
@@ -93,7 +96,7 @@ export const ContactSection = () => {
           </div>
 
           {/* Right Side */}
-          <div className="p-8 lg:p-12">
+          <div ref={rightRef as any} className="p-8 lg:p-12">
             <span className="uppercase tracking-[0.3em] text-primary text-sm font-medium">
               Let’s Connect
             </span>

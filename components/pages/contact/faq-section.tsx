@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 
 const faq = [
   {
@@ -42,8 +43,10 @@ const faq = [
 ];
 
 export const FAQSection = () => {
+  const faqRef = useGsapReveal("fadeUp");
+
   return (
-    <section className="py-10 lg:py-20 bg-secondary/20">
+    <section className="py-10 lg:py-20 bg-secondary/20 overflow-hidden">
       <div className="max-w-content-area w-[90%] mx-auto">
         <SectionHeading
           tag="Frequently Asked Questions"
@@ -51,7 +54,7 @@ export const FAQSection = () => {
           description="Find answers to the most common questions regarding reservations, facilities, services and hotel policies."
         />
 
-        <div className="max-w-4xl mx-auto mt-12">
+        <div ref={faqRef as any} className="max-w-4xl mx-auto mt-12">
           <Accordion type="single" collapsible className="space-y-4">
             {faq.map((item, index) => (
               <AccordionItem

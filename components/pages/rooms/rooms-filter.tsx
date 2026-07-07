@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Users, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 
 interface RoomsFilterProps {
   filters: {
@@ -18,6 +19,7 @@ export const RoomsFilter = ({ filters, onChange }: RoomsFilterProps) => {
   const [localRoomType, setLocalRoomType] = useState(filters.roomType);
   const [localAcNonAc, setLocalAcNonAc] = useState(filters.acNonAc);
   const [localGuestsCount, setLocalGuestsCount] = useState(filters.guestsCount);
+  const filterRef = useGsapReveal("fadeUp");
 
   // Keep local state in sync if filters are reset externally
   useEffect(() => {
@@ -46,9 +48,10 @@ export const RoomsFilter = ({ filters, onChange }: RoomsFilterProps) => {
   };
 
   return (
-    <section className="py-10 bg-secondary/20 border-y border-border">
+    <section className="py-10 bg-secondary/20 border-y border-border overflow-hidden">
       <div className="max-w-content-area w-[90%] mx-auto">
         <div
+          ref={filterRef as any}
           className="
             bg-card/80
             backdrop-blur-xl

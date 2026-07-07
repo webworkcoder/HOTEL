@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { RoomCard } from "@/components/shared/room-card";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { api } from "@/lib/endpoints";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -14,6 +15,7 @@ export const RoomsGrid = ({ filters }: { filters: any }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const footerRef = useGsapReveal("fadeUp");
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -117,106 +119,108 @@ export const RoomsGrid = ({ filters }: { filters: any }) => {
               ))}
             </div>
 
-            <div className="flex items-center justify-center gap-2 sm:gap-3 mt-16 flex-wrap">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="
-              h-12 w-12
-              flex items-center justify-center
-              border border-border
-              bg-card
-              text-foreground
-              transition-all duration-300
-              hover:bg-primary hover:text-primary-foreground hover:border-primary
-              disabled:opacity-40
-              disabled:cursor-not-allowed
-              disabled:hover:bg-card
-              disabled:hover:text-foreground
-              disabled:hover:border-border
-            "
-              >
-                <ChevronLeft size={18} />
-              </button>
+            <div ref={footerRef as any} className="w-full">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 mt-16 flex-wrap">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="
+                h-12 w-12
+                flex items-center justify-center
+                border border-border
+                bg-card
+                text-foreground
+                transition-all duration-300
+                hover:bg-primary hover:text-primary-foreground hover:border-primary
+                disabled:opacity-40
+                disabled:cursor-not-allowed
+                disabled:hover:bg-card
+                disabled:hover:text-foreground
+                disabled:hover:border-border
+              "
+                >
+                  <ChevronLeft size={18} />
+                </button>
 
-              {Array.from({ length: totalPages }).map((_, index) => {
-                const page = index + 1;
-                const isActive = currentPage === page;
+                {Array.from({ length: totalPages }).map((_, index) => {
+                  const page = index + 1;
+                  const isActive = currentPage === page;
 
-                return (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`
-                  h-12 w-12
-                  border
-                  font-medium
-                  transition-all duration-300
-                  ${
-                    isActive
-                      ? `
-                        bg-primary
-                        text-primary-foreground
-                        border-primary
-                        scale-110
-                        shadow-lg
-                        shadow-primary/20
-                      `
-                      : `
-                        bg-card
-                        border-border
-                        text-foreground
-                        hover:bg-primary
-                        hover:text-primary-foreground
-                        hover:border-primary
-                      `
-                  }
-                `}
-                  >
-                    {page}
-                  </button>
-                );
-              })}
+                  return (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`
+                    h-12 w-12
+                    border
+                    font-medium
+                    transition-all duration-300
+                    ${
+                      isActive
+                        ? `
+                          bg-primary
+                          text-primary-foreground
+                          border-primary
+                          scale-110
+                          shadow-lg
+                          shadow-primary/20
+                        `
+                        : `
+                          bg-card
+                          border-border
+                          text-foreground
+                          hover:bg-primary
+                          hover:text-primary-foreground
+                          hover:border-primary
+                        `
+                    }
+                  `}
+                    >
+                      {page}
+                    </button>
+                  );
+                })}
 
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="
-              h-12 w-12
-              flex items-center justify-center
-              border border-border
-              bg-card
-              text-foreground
-              transition-all duration-300
-              hover:bg-primary hover:text-primary-foreground hover:border-primary
-              disabled:opacity-40
-              disabled:cursor-not-allowed
-              disabled:hover:bg-card
-              disabled:hover:text-foreground
-              disabled:hover:border-border
-            "
-              >
-                <ChevronRight size={18} />
-              </button>
-            </div>
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="
+                h-12 w-12
+                flex items-center justify-center
+                border border-border
+                bg-card
+                text-foreground
+                transition-all duration-300
+                hover:bg-primary hover:text-primary-foreground hover:border-primary
+                disabled:opacity-40
+                disabled:cursor-not-allowed
+                disabled:hover:bg-card
+                disabled:hover:text-foreground
+                disabled:hover:border-border
+              "
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
 
-            <div className="flex justify-center mt-6">
-              <div className="px-5 py-3 bg-secondary/40 border border-border text-sm text-muted-foreground">
-                Showing{" "}
-                <span className="font-semibold text-primary">
-                  {filteredRooms.length === 0
-                    ? 0
-                    : (currentPage - 1) * ITEMS_PER_PAGE + 1}
-                </span>
-                {" - "}
-                <span className="font-semibold text-primary">
-                  {Math.min(currentPage * ITEMS_PER_PAGE, filteredRooms.length)}
-                </span>
-                {" of "}
-                <span className="font-semibold text-primary">
-                  {filteredRooms.length}
-                </span>{" "}
-                rooms
+              <div className="flex justify-center mt-6">
+                <div className="px-5 py-3 bg-secondary/40 border border-border text-sm text-muted-foreground">
+                  Showing{" "}
+                  <span className="font-semibold text-primary">
+                    {filteredRooms.length === 0
+                      ? 0
+                      : (currentPage - 1) * ITEMS_PER_PAGE + 1}
+                  </span>
+                  {" - "}
+                  <span className="font-semibold text-primary">
+                    {Math.min(currentPage * ITEMS_PER_PAGE, filteredRooms.length)}
+                  </span>
+                  {" of "}
+                  <span className="font-semibold text-primary">
+                    {filteredRooms.length}
+                  </span>{" "}
+                  rooms
+                </div>
               </div>
             </div>
           </>

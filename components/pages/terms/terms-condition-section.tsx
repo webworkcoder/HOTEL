@@ -1,4 +1,6 @@
+"use client";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 
 const sections = [
   {
@@ -47,9 +49,39 @@ const sections = [
       "We reserve the right to update or modify these terms and conditions at any time without prior notice.",
   },
 ];
-export const TermsConditionSection = () => {
+
+const TermsCard = ({ section, index }: { section: any; index: number }) => {
+  const ref = useGsapReveal("fadeUp");
+
   return (
-    <section className="py-10 lg:py-20">
+    <div
+      ref={ref as any}
+      className="border border-border p-8 bg-card hover:border-primary/40 transition-colors duration-300"
+    >
+      <div className="flex items-start gap-5">
+        <div className="min-w-14 h-14 bg-primary text-white flex items-center justify-center text-xl font-bold">
+          {String(index + 1).padStart(2, "0")}
+        </div>
+
+        <div>
+          <h3 className="text-2xl font-heading mb-4">
+            {section.title}
+          </h3>
+
+          <p className="text-muted-foreground leading-8">
+            {section.content}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const TermsConditionSection = () => {
+  const footerRef = useGsapReveal("fadeUp");
+
+  return (
+    <section className="py-10 lg:py-20 overflow-hidden">
       <div className="max-w-content-area w-[90%] mx-auto">
         <SectionHeading
           tag="Legal Information"
@@ -59,30 +91,14 @@ export const TermsConditionSection = () => {
 
         <div className="mt-14 space-y-8">
           {sections.map((section, index) => (
-            <div
-              key={section.title}
-              className="border border-border p-8 bg-card"
-            >
-              <div className="flex items-start gap-5">
-                <div className="min-w-14 h-14 bg-primary text-white flex items-center justify-center text-xl font-bold">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-heading mb-4">
-                    {section.title}
-                  </h3>
-
-                  <p className="text-muted-foreground leading-8">
-                    {section.content}
-                  </p>
-                </div>
-              </div>
-            </div>
+            <TermsCard key={section.title} section={section} index={index} />
           ))}
         </div>
 
-        <div className="mt-12 border border-primary/20 bg-primary/5 p-8">
+        <div
+          ref={footerRef as any}
+          className="mt-12 border border-primary/20 bg-primary/5 p-8"
+        >
           <p className="text-muted-foreground leading-8">
             By using our website and services, you acknowledge that you have
             read, understood, and agreed to these Terms and Conditions.

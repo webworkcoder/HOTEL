@@ -6,6 +6,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 import { Quote, Star } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
+import { useGsapReveal } from "@/hooks/useGsapReveal";
 
 const testimonials = [
   {
@@ -60,6 +61,7 @@ const testimonials = [
 
 export const Testimonials = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const revealRef = useGsapReveal("fadeUp");
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -98,44 +100,46 @@ export const Testimonials = () => {
           description="Experiences shared by our guests from around the world."
         />
 
-        <div ref={emblaRef} className="overflow-hidden">
-          <div className="flex">
-            {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="flex-[0_0_100%] min-w-0">
-                <div className="max-w-4xl mx-auto text-center">
-                  <Quote
-                    className="mx-auto text-primary mb-8 opacity-40"
-                    size={70}
-                  />
+        <div ref={revealRef as any}>
+          <div ref={emblaRef} className="overflow-hidden">
+            <div className="flex">
+              {testimonials.map((testimonial) => (
+                <div key={testimonial.id} className="flex-[0_0_100%] min-w-0">
+                  <div className="max-w-4xl mx-auto text-center">
+                    <Quote
+                      className="mx-auto text-primary mb-8 opacity-40"
+                      size={70}
+                    />
 
-                  <div className="flex justify-center gap-1 mb-6">
-                    {Array.from({
-                      length: testimonial.rating,
-                    }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className="fill-primary text-primary"
-                        size={18}
-                      />
-                    ))}
-                  </div>
+                    <div className="flex justify-center gap-1 mb-6">
+                      {Array.from({
+                        length: testimonial.rating,
+                      }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className="fill-primary text-primary"
+                          size={18}
+                        />
+                      ))}
+                    </div>
 
-                  <p className="text-xl lg:text-3xl font-heading leading-relaxed mb-10">
-                    &#34;{testimonial.review}&#34;
-                  </p>
-
-                  <div>
-                    <h3 className="text-2xl font-semibold">
-                      {testimonial.name}
-                    </h3>
-
-                    <p className="text-muted-foreground mt-2">
-                      {testimonial.location}
+                    <p className="text-xl lg:text-3xl font-heading leading-relaxed mb-10">
+                      &#34;{testimonial.review}&#34;
                     </p>
+
+                    <div>
+                      <h3 className="text-2xl font-semibold">
+                        {testimonial.name}
+                      </h3>
+
+                      <p className="text-muted-foreground mt-2">
+                        {testimonial.location}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 

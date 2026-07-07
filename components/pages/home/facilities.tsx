@@ -34,8 +34,47 @@ const facilities = [
   },
 ];
 
-export const Facilities = () => {
+const FacilityCard = ({
+  facility,
+  index,
+  total,
+}: {
+  facility: any;
+  index: number;
+  total: number;
+}) => {
   const ref = useGsapReveal("fadeUp");
+  const Icon = facility.icon;
+
+  return (
+    <div
+      ref={ref as any}
+      className={`
+        flex flex-col items-center text-center px-8 py-12
+        transition-all duration-300
+        hover:bg-secondary/50
+        hover:-translate-y-1
+        relative
+        ${index !== total - 1 ? "xl:border-r border-border" : ""}
+        ${index < 2 ? "sm:border-b xl:border-b-0 border-border" : ""}
+      `}
+    >
+      <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6 transition-all duration-300 hover:scale-110">
+        <Icon size={28} strokeWidth={1.8} />
+      </div>
+
+      <h3 className="font-heading text-xl mb-4 max-w-55 leading-snug">
+        {facility.title}
+      </h3>
+
+      <p className="text-muted-foreground text-sm leading-7 max-w-62.5">
+        {facility.description}
+      </p>
+    </div>
+  );
+};
+
+export const Facilities = () => {
   return (
     <section className="py-10 lg:py-20 bg-primary-foreground">
       <div className="max-w-content-area w-[90%] mx-auto">
@@ -46,41 +85,14 @@ export const Facilities = () => {
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 border border-border overflow-hidden bg-card">
-          {facilities.map((facility, index) => {
-            const Icon = facility.icon;
-
-            return (
-              <div
-                ref={ref}
-                key={facility.id}
-                className={`
-                  flex flex-col items-center text-center px-8 py-12
-                  transition-all duration-300
-                  hover:bg-secondary/50
-                  hover:-translate-y-1
-                  relative
-                  ${
-                    index !== facilities.length - 1
-                      ? "xl:border-r border-border"
-                      : ""
-                  }
-                  ${index < 2 ? "sm:border-b xl:border-b-0 border-border" : ""}
-                `}
-              >
-                <div className="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6 transition-all duration-300 hover:scale-110">
-                  <Icon size={28} strokeWidth={1.8} />
-                </div>
-
-                <h3 className="font-heading text-xl mb-4 max-w-55 leading-snug">
-                  {facility.title}
-                </h3>
-
-                <p className="text-muted-foreground text-sm leading-7 max-w-62.5">
-                  {facility.description}
-                </p>
-              </div>
-            );
-          })}
+          {facilities.map((facility, index) => (
+            <FacilityCard
+              key={facility.id}
+              facility={facility}
+              index={index}
+              total={facilities.length}
+            />
+          ))}
         </div>
       </div>
     </section>
