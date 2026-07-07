@@ -19,7 +19,8 @@ export const PageBanner = ({ title, description, image }: Props) => {
               inline-block
               mb-5
               px-4
-              py-2
+              md:py-2
+              py-1
               border
               border-primary/40
               bg-primary/10
@@ -27,7 +28,8 @@ export const PageBanner = ({ title, description, image }: Props) => {
               text-primary
               uppercase
               tracking-[0.35em]
-              text-xs
+              md:text-xs
+              text-[8px]
               absolute
               right-5
               bottom-0
