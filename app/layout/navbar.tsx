@@ -193,7 +193,7 @@ export const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             className="lg:hidden text-white"
-            onClick={() => (window.location.href = "tel:+919999984981")}
+            onClick={() => (window.location.href = "tel:+917011494881")}
           >
             <PhoneCall size={30} />
           </button>

@@ -4,13 +4,13 @@ import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 
 export const FloatingWhatsapp = () => {
-  const phoneNumber = "+919999984981";
+  const phoneNumber = "+917011494881";
   const message = encodeURIComponent(
     "Hello, I would like to know more about room availability.",
   );
 
   return (
-    <div className="fixed bottom-21 right-4 z-[9999]">
+    <div className="fixed bottom-21 right-4 z-9999">
       {/* Outer Glow */}
       <div className="absolute inset-0 rounded-full bg-green-500 opacity-30 blur-xl animate-pulse" />
 
