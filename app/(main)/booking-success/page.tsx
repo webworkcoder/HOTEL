@@ -302,9 +302,11 @@ function BookingSuccessContent() {
                   lineHeight: "1.6",
                 }}
               >
-                Sector 5, Salt Lake, Kolkata, WB
+                {" "}
+                Santoshi Mata mandir ke samne
                 <br />
-                Email: booking@hotel.com | Phone: +91 98765 43210
+                , Hotel blu plaza, Hayatpur Rd,
+                Sector 89, Gurugram, Haryana 122505 | Phone: +91 7011494881
               </p>
             </div>
 

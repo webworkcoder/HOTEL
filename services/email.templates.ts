@@ -5,7 +5,7 @@ export const bookingConfirmationEmail = (data: any) => {
     
     <!-- HEADER -->
     <div style="max-width:600px;margin:auto;background:#111827;padding:20px;border-radius:10px 10px 0 0;color:white;text-align:center;">
-      <h1 style="margin:0;">Luxury Stay Hotel</h1>
+      <h1 style="margin:0;">Hotel Blu Plaza</h1>
       <p style="margin:5px 0 0;">Booking Confirmation</p>
     </div>
 
@@ -65,7 +65,7 @@ export const bookingConfirmationEmail = (data: any) => {
           ? `
       <div style="margin: 20px 0; text-align: center;">
         <a href="${data.invoiceUrl}" target="_blank" style="background-color: #c5a27a; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 4px; display: inline-block;">
-           Download Invoice (Image/PDF)
+           Download Invoice
         </a>
       </div>
       `
@@ -91,7 +91,7 @@ export const bookingConfirmationEmail = (data: any) => {
       <hr style="margin:20px 0;" />
 
       <p style="color:#6b7280;font-size:12px;text-align:center;">
-        Thank you for choosing Luxury Stay Hotel.<br/>
+        Thank you for choosing Hotel Blu Plaza.<br/>
         We look forward to hosting you!
       </p>
 
@@ -106,7 +106,7 @@ export const adminBookingEmail = (data: any) => {
     
     <div style="max-width:600px;margin:auto;background:#111827;padding:20px;color:white;text-align:center;border-radius:10px;">
       <h1>New Booking Alert</h1>
-      <p>Luxury Stay Hotel Admin Panel</p>
+      <p>Hotel Blu Plaza Admin Panel</p>
     </div>
 
     <div style="max-width:600px;margin:auto;background:white;padding:25px;border-radius:10px;">
